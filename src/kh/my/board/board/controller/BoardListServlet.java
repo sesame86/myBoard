@@ -38,7 +38,7 @@ public class BoardListServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		final int PAGE_SIZE = 5;  //한페이지당 글 수 
+		final int PAGE_SIZE = 10;  //한페이지당 글 수 
 		final int PAGE_BLOCK = 3;  //한화면에 나타날 페이지 링크 수
 		int bCount = 0;  //총 글수
 		int pageCount = 0;  //총페이지 수 

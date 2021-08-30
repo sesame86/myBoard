@@ -1,27 +1,44 @@
 package kh.my.board.comm;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class JDBCTemplate {
 
 	public JDBCTemplate() {}
 	public static Connection getConnection() {
 		Connection conn = null;
-		String dr = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";  //TODO: 설명
-		String uid = "scott";
-		String pwd = "TIGER";
-		
+//		String dr = "oracle.jdbc.driver.OracleDriver";
+//		String url = "jdbc:oracle:thin:@localhost:1521:xe";  //TODO: 설명
+//		String uid = "scott";
+//		String pwd = "TIGER";
+//		try {
+//			Class.forName(dr);
+//			conn = DriverManager.getConnection(url, uid, pwd);
+//			if(conn != null) {
+//				System.out.println("연결 성공");
+//			}else {
+//				System.out.println("연결 실패");
+//			}
+//		}catch(Exception e) {
+//			System.out.println("연결 실패");
+//			e.printStackTrace();
+//		}
 		try {
-			Class.forName(dr);
-			conn = DriverManager.getConnection(url, uid, pwd);
+			InitialContext initContext = new InitialContext();
+			Context envContext = (Context)initContext.lookup("java:/comp/env");  //Tomcat resource 설정을 찾음: server.xml, context.xml
+			DataSource ds = (DataSource)envContext.lookup("jdbc/mylocaloracle");
+			conn = ds.getConnection();
+			
 			if(conn != null) {
-				System.out.println("연결 성공");
+				System.out.println("2021 08 30 DBCP JNDI 연결 성공");
 			}else {
-				System.out.println("연결 실패");
+				System.out.println("2021 08 30 DBCP JNDI 연결 실패");
 			}
 		}catch(Exception e) {
 			System.out.println("연결 실패");

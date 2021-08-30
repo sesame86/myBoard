@@ -12,6 +12,13 @@ import kh.my.board.comm.JDBCTemplate;
 public class BoardService {
 
 	public BoardService() {}
+	public Board getBoard(int bno) {
+		Board vo = null;
+		Connection conn = JDBCTemplate.getConnection();
+		vo = new BoardDao().getBoard(conn, bno);
+		JDBCTemplate.close(conn);
+		return vo;
+	}
 	//총 글수
 	public int getBoardCount() {
 		//0이나 -1이나 똑같음~ 읽은게 없다는뜻은 똑같다
