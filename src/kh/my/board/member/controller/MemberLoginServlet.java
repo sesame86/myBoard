@@ -1,7 +1,6 @@
 package kh.my.board.member.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,7 @@ import kh.my.board.member.model.service.MemberService;
 /**
  * Servlet implementation class MemberLoginServlet
  */
-@WebServlet("/login")
+@WebServlet("/memberlogin")
 public class MemberLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,18 +31,18 @@ public class MemberLoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
-		
 		int result = new MemberService().login(id, pwd);
 		
 		if(result == 1) {
-			request.getSession().setAttribute("memberLoginInfo", id);
-			out.println(id + "님 로그인 하셨습니다.");
+			request.setAttribute("id", id);
+			//page 이동하면서 Data도 전달
+			request.getRequestDispatcher("/boardlist").forward(request, response);
+			
 		}else {
-			out.println("로그인에 실패했습니다.");
+			response.sendRedirect("login.jsp");
 		}
 	}
 

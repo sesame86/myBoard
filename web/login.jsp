@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,25 +25,22 @@
         }
       }
     </style>
-    
   </head>
 </head>
 <body class="text-center">
-    
-<main class="form-signin">
-  <form method="post" action="login">
-    <h1 class="h3 mb-3 fw-normal"><b>Login</b></h1>
-
-    <div class="form-floating">
-      <input name="id" class="form-control" id="floatingInput" placeholder="id">
-      <label for="floatingInput">id</label>
-    </div>
-    <div class="form-floating">
-      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-  </form>
-</main>
+	<main class="form-signin">
+	  <form method="post" action="memberlogin">
+	  	<img class="logo" src="css/logo1.JPG" width="320px">
+	    <div class="form-floating">
+	      <input name="id" class="form-control" id="floatingInput" placeholder="id">
+	      <label for="floatingInput">id</label>
+	    </div>
+	    <div class="form-floating">
+	      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+	      <label for="floatingPassword">Password</label>
+	    </div>
+	    <button class="w-100 btn btn-color" type="submit">Sign in</button>
+	  </form>
+	</main>
 </body>
 </html>

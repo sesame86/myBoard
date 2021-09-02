@@ -33,10 +33,8 @@ public class MemberLogoutServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
-		request.getSession().removeAttribute("memberLoginInfo");
-		if(writer != null) {
-			out.println(writer + "로그아웃하셨습니다.");
-		}
+		request.getSession().invalidate();
+		request.getRequestDispatcher("/boardlist").forward(request, response);
 	}
 
 	/**

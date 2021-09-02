@@ -48,9 +48,9 @@ public class BoardWriteServlet extends HttpServlet {
 		int result = new BoardService().insertBoard(vo);
 		//오류 발생-1, 가입성공 1, 가입실패 0, 기존회원있으면 2, 가장큰수 0xFF
 		if(result ==1) {
-			out.println("게시글이 추가되었습니다.");
+			request.getRequestDispatcher("/boardlist").forward(request, response);
 		}else {
-			out.println("예기치 못한 오류 발생");
+			request.getRequestDispatcher("boardwrite.jsp").forward(request, response);
 		}
 	}
 
