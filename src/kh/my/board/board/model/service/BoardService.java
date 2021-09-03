@@ -50,12 +50,19 @@ public class BoardService {
 	}
 	//read
 	public ArrayList<Board> selectBoard(int start , int end) {
-		ArrayList<Board> voList = null;
+		ArrayList<Board> volist = null;
 		Connection conn = getConnection();
 		
-		voList = new BoardDao().selectBoard(conn, start, end);
+		volist = new BoardDao().selectBoard(conn, start, end);
 		JDBCTemplate.close(conn);
-		return voList;
+		return volist;
+	}
+	public Board getBoardDetail(int bno) {
+		Connection conn = getConnection();
+		Board vo = new Board();
+		vo = new BoardDao().getBoardDetail(conn, bno);
+		JDBCTemplate.close(conn);
+		return vo;
 	}
 	//update
 	public int updateBoard(Board vo, String writer) {

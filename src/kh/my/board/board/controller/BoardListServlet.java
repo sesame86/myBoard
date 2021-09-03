@@ -71,12 +71,14 @@ public class BoardListServlet extends HttpServlet {
 			endPage = pageCount;
 		}
 		
-		ArrayList<Board> voList = new BoardService().selectBoard(startRnum, endRnum);
+		ArrayList<Board> volist = new BoardService().selectBoard(startRnum, endRnum);
 		
 		//Data 전달을 위해서 request에 셋
-		System.out.println((String)request.getAttribute("id"));
-		request.setAttribute("id", request.getAttribute("id"));
-		request.setAttribute("boardvolist", voList);
+		//여기 id전달...하는데...
+		String id = (String)request.getAttribute("memberLoginInfo");
+		System.out.println(id);
+		request.setAttribute("id", id);
+		request.setAttribute("boardvolist", volist);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("pageCount", pageCount);

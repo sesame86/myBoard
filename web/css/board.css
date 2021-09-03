@@ -49,3 +49,59 @@ tr {
 .btn-color:hover {
 	background-color: #C8C6C6;
 }
+
+/* board detail */
+.jumbotron {
+	padding: 20px 10px 10px 10px;
+	min-height: 500px;
+	
+}
+/* comment */
+.speech-bubble-yellow {
+	width: 40%;
+	min-height: 50px;
+	padding: 15px;
+	margin-bottom: 15px;
+	position: relative;
+	background: #f0e5cf;
+	border-radius: .4em;
+}
+
+.speech-bubble-yellow:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #f0e5cf;
+	border-left: 0;
+	border-top: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+}
+.speech-bubble-white {
+	width: 40%;
+	min-height: 50px;
+	padding: 15px;
+	margin-bottom: 15px;
+	position: relative;
+	background: #ffffff;
+	border-radius: .4em;
+}
+
+.speech-bubble-white:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #ffffff;
+	border-left: 0;
+	border-top: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+}

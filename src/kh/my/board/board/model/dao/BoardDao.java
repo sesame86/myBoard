@@ -112,7 +112,7 @@ public class BoardDao {
 	}
 	//read
 	public ArrayList<Board> selectBoard(Connection conn, int start , int end) {
-		ArrayList<Board> voList = null;
+		ArrayList<Board> volist = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String query = "select t2.*"
@@ -124,7 +124,7 @@ public class BoardDao {
 			ps.setInt(2, end);
 			rs = ps.executeQuery();
 			
-			voList = new ArrayList<Board>();
+			volist = new ArrayList<Board>();
 			while(rs.next()) {
 				Board vo = new Board();
 				vo.setBno(rs.getInt("bno"));
@@ -136,7 +136,7 @@ public class BoardDao {
 				vo.setBref(rs.getInt("bref"));
 				vo.setBreLevel(rs.getInt("bre_level"));
 				vo.setBreStep(rs.getInt("bre_step"));
-				voList.add(vo);
+				volist.add(vo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,7 +145,32 @@ public class BoardDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
-		return voList;
+		return volist;
+	}
+	public Board getBoardDetail(Connection conn, int bno) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Board vo = new Board();
+		String query = "select title, content, create_date, writer from board_r where bno like ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bno);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setCreate_date(rs.getDate("create_date"));
+				vo.setWriter(rs.getString("writer"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return vo;
 	}
 	//update
 		public int updateBoard(Connection conn, Board vo, String writer) {

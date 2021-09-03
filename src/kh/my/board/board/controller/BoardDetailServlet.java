@@ -1,6 +1,7 @@
-package kh.my.board.member.controller;
+package kh.my.board.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,19 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kh.my.board.member.model.service.MemberService;
+import kh.my.board.board.model.service.BoardService;
+import kh.my.board.board.model.vo.Board;
 
 /**
- * Servlet implementation class MemberLoginServlet
+ * Servlet implementation class BoardDetailServlet
  */
-@WebServlet("/memberlogin")
-public class MemberLoginServlet extends HttpServlet {
+@WebServlet("/boarddetail")
+public class BoardDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberLoginServlet() {
+    public BoardDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +34,14 @@ public class MemberLoginServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
-		int result = new MemberService().login(id, pwd);
-		
-		if(result == 1) {
-			request.setAttribute("memberLoginInfo", id);
-			//page 이동하면서 Data도 전달
-			request.getRequestDispatcher("/boardlist").forward(request, response);
-			
-		}else {
-			response.sendRedirect("login.jsp");
+		String bno = request.getParameter("bno");
+		int bnoInt = 0;
+		if(bno != null) {
+			bnoInt = Integer.parseInt(bno);
 		}
+		Board vo  = new BoardService().getBoardDetail(bnoInt);
+		request.setAttribute("vo", vo);
+		request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
 	}
 
 	/**

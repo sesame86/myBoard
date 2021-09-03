@@ -11,8 +11,8 @@
 <title>board list</title>
 </head>
 <body>
-	<% //이곳은 자바 문법에 따름
-		String id = (String)request.getAttribute("id");
+	<% 
+		String id = (String)request.getAttribute("memberLoginInfo");
 		ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("boardvolist");
 		int startPage = (int)request.getAttribute("startPage");
 		int endPage = (int)request.getAttribute("endPage");
@@ -25,20 +25,20 @@
       			<span class="navbar-toggler-icon"></span>
 		    </button>
 		    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-		    	<a class="navbar-brand" href="#"><img class="logo" src="css/logo2.JPG" height="30px"></a>
+		    	<a class="navbar-brand" href="boardlist"><img class="logo" src="css/logo2.JPG" height="30px"></a>
 		    	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		    		<li class="nav-item">
 		    			<a class="nav-link active" href="#"></a>
 		        	</li>
 		        </ul>
-		        <c:if test="${id == null}">
+		        <c:if test="${memberLoginInfo == null}">
 		        <form class="d-flex" style="margin-right: 10px;">
 	              <a class="btn login-btn" role="button" href="login.jsp">LogIn</a>
 	         	</form>
 	         	</c:if>
-	         	<c:if test="${not empty id}">
+	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p class="username">${id} 님</p>
+	         		<p class="username"><%=id %> 님</p>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
@@ -62,7 +62,7 @@
 				for(Board vo : volist){ %>
 				<tr>
 					<td><%=vo.getBno()%></td>
-					<td><%=vo.getTitle()%></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getCreate_date()%></td>
 				</tr>
@@ -74,6 +74,7 @@
 			  <ul class="pagination justify-content-center">
 			    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
+			    <!-- 왜 memberLoginInfo가 session에 없을까.. -->
 				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
 				<%} %>
 			    <li class="page-item"><a class="page-link" href="#">Next</a></li>
