@@ -37,7 +37,7 @@ public class MemberLoginServlet extends HttpServlet {
 		int result = new MemberService().login(id, pwd);
 		
 		if(result == 1) {
-			request.setAttribute("memberLoginInfo", id);
+			request.getSession().setAttribute("memberLoginInfo", id);
 			//page 이동하면서 Data도 전달
 			request.getRequestDispatcher("boardlist").forward(request, response);
 		}else {

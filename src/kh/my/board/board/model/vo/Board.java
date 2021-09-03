@@ -79,17 +79,17 @@ public class Board {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public Date getCreate_date() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreate_date(Date create_date) {
-		this.createDate = create_date;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
-	public char getDelete_yn() {
+	public char getDeleteYn() {
 		return deleteYn;
 	}
-	public void setDelete_yn(char delete_yn) {
-		this.deleteYn = delete_yn;
+	public void setDeleteYn(char deleteYn) {
+		this.deleteYn = deleteYn;
 	}
 	public int getBref() {
 		return bref;

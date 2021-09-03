@@ -41,6 +41,7 @@ public class BoardDetailServlet extends HttpServlet {
 		}
 		Board vo  = new BoardService().getBoardDetail(bnoInt);
 		request.setAttribute("vo", vo);
+		request.setAttribute("bno", bnoInt);
 		request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
 	}
 

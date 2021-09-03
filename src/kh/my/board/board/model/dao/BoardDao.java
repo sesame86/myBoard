@@ -12,7 +12,8 @@ public class BoardDao {
 	public BoardDao() {}
 	public Board getBoard(Connection conn, int bno) {
 		Board vo = null;
-		String query = "select bno, bref, bre_level, bre_step from board_r where bno like ?";
+		String query = "select bno, bref, bre_level, bre_step,title, content, create_Date, writer, delete_Yn"
+				+ " from board_r where bno like ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -26,6 +27,11 @@ public class BoardDao {
 				vo.setBref(rs.getInt("bref"));
 				vo.setBreLevel(rs.getInt("bre_level"));
 				vo.setBreStep(rs.getInt("bre_step"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setCreateDate(rs.getDate("create_Date"));
+				vo.setWriter(rs.getString("writer"));
+				vo.setDeleteYn(rs.getString("delete_Yn").charAt(0));
 			}
 		} catch (Exception e) {
 			System.out.println("연결 실패");
@@ -63,50 +69,61 @@ public class BoardDao {
 	public int insertBoard(Connection conn, Board vo) {
 		int result = -1;
 		PreparedStatement ps = null;
-		//답글, 답답글, 답답답글...
-		String sqlUpdate = "update board_r set bre_step = bre_step+1"
-				+ " where bref = ? and bre_step > ?";
-		//새글
-		String sqlInsertNew = "insert into  board_r(bno, title, content, writer, bref, bre_level, bre_step)"
-				+ " VALUES (seq_board.nextval, ?, ?, ?, seq_board.nextval, ?, ?)";
+		ResultSet rs = null;
+		// 답글, 답답....
+		String sqlUpdate = "UPDATE board_r set bre_step=bre_step+1  where bref=? and bre_step>?";
 		
-		String sqlInsert = "insert into  board_r(bno, title, content, writer, bref, bre_level, bre_step)"
-				+ " VALUES (seq_board.nextval, ?, ?, ?, ?, ?, ?)";
+		String sqlInsert = "INSERT INTO" + " board_r" + " (BNO, TITLE, CONTENT, WRITER, bref, bre_level, bre_step)"
+						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		String sqlSeqNextVal = "select SEQ_BOARD.nextval from dual";
+		
 		int bref = 0;
 		int bre_level = 0;
 		int bre_step = 1;
+		int nextVal = 0;
 		try {
-			//bref, bre_level, bre_step 추가
-			System.out.println(vo.getBno());
-			if(vo.getBno() != 0) {
+			ps = conn.prepareStatement(sqlSeqNextVal);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				nextVal = rs.getInt(1);
+			}
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+			
+			if (vo.getBno() != 0) { // 답,,,,,글 쓰기
 				bref = vo.getBref();
 				bre_step = vo.getBreStep();
-				ps = conn.prepareStatement(sqlUpdate);
+				ps = conn.prepareStatement(sqlUpdate); // UPDATE
 				ps.setInt(1, bref);
 				ps.setInt(2, bre_step);
 				result = ps.executeUpdate();
 				JDBCTemplate.close(ps);
-				
+
 				bre_level = vo.getBreLevel() + 1;
-				bre_step++;
-				ps = conn.prepareStatement(sqlInsert);
-				ps.setInt(4, bref);
-				ps.setInt(5,  bre_level);
-				ps.setInt(6, bre_step);
-			}else {
-				ps = conn.prepareStatement(sqlInsertNew);
-				ps.setInt(4,  bre_level);
-				ps.setInt(5, bre_step);
+				bre_step++; 
 			}
-			ps.setString(1, vo.getTitle());
-			ps.setString(2, vo.getContent());
-			ps.setString(3, vo.getWriter());
+			
+			ps = conn.prepareStatement(sqlInsert); // Insert
+			if (vo.getBno() != 0) {// 답,,,,,글 쓰기
+				ps.setInt(5, bref);
+			} else {// 새글 쓰기
+				ps.setInt(5, nextVal);
+			}
+			ps.setInt(6, bre_level);
+			ps.setInt(7, bre_step);
+			ps.setInt(1, nextVal);
+			ps.setString(2, vo.getTitle());
+			ps.setString(3, vo.getContent());
+			System.out.println(vo.getWriter());
+			ps.setString(4, vo.getWriter());
 			result = ps.executeUpdate();
 		} catch (Exception e) {
 			//-1
 			System.out.println("연결 실패");
 			e.printStackTrace();
 		} finally {
+			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
 		return result;
@@ -131,9 +148,9 @@ public class BoardDao {
 				vo.setBno(rs.getInt("bno"));
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
-				vo.setCreate_date(rs.getDate("create_date"));
+				vo.setCreateDate(rs.getDate("create_date"));
 				vo.setWriter(rs.getString("writer"));
-				vo.setDelete_yn(rs.getString("delete_yn").charAt(0));
+				vo.setDeleteYn(rs.getString("delete_yn").charAt(0));
 				vo.setBref(rs.getInt("bref"));
 				vo.setBreLevel(rs.getInt("bre_level"));
 				vo.setBreStep(rs.getInt("bre_step"));
@@ -161,7 +178,7 @@ public class BoardDao {
 			while(rs.next()) {
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
-				vo.setCreate_date(rs.getDate("create_date"));
+				vo.setCreateDate(rs.getDate("create_date"));
 				vo.setWriter(rs.getString("writer"));
 			}
 		} catch (Exception e) {

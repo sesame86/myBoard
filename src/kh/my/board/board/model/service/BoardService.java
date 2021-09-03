@@ -31,20 +31,11 @@ public class BoardService {
 	}
 	//create
 	public int insertBoard(Board vo) {
-		int result = -1;
+		int result =-1;
 		Connection conn = JDBCTemplate.getConnection();
-		//여기에 넣는 경우 : DML 두개일 때
-		JDBCTemplate.setAutoCommit(conn, false);
-		//강사님은 이걸 더 선호
 		
 		result = new BoardDao().insertBoard(conn, vo);
 			
-		if(result > 0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.Rollback(conn);
-		}
-		JDBCTemplate.Rollback(conn);
 		JDBCTemplate.close(conn);
 		return result;	
 	}

@@ -9,7 +9,7 @@
 <title>board write</title>
 </head>
 <body>
-	<%String id = (String)request.getAttribute("memberLoginInfo"); %>
+	<%String id = (String)session.getAttribute("memberLoginInfo"); %>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
       	<div class="container-fluid">
@@ -43,14 +43,14 @@
 	<main>
 		<div class="wrap">
 		<h1 class="text-center web-title">글쓰기</h1>
-		<form method="post" action="boardwrite.kh">
+		<form method="get" action="boardwrite.kh">
 			<div class="mb-3">
 				<label for="exampleFormControlInput1" class="form-label">Title</label>
-				<input type="text" name="t" class="form-control" id="exampleFormControlInput1" required="required">
+				<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
 			</div>
 			<div class="mb-3">
 			  <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-			  <textarea name="c" class="form-control" id="exampleFormControlTextarea1" rows="5" required="required"></textarea>
+			  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" required="required"></textarea>
 			</div>
 			<input class="btn btn-color" type="submit" value=" 등록 ">
 		</form>

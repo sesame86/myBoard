@@ -13,16 +13,16 @@ import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardReWriteServlet
+ * Servlet implementation class BoardWriteServlet
  */
 @WebServlet("/boardwrite.kh")
-public class BoardReWriteServlet extends HttpServlet {
+public class BoardWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardReWriteServlet() {
+    public BoardWriteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,7 +39,7 @@ public class BoardReWriteServlet extends HttpServlet {
 		// 답글이므로 어느글에 답글을 달것인가 정보가 전달되어 올 것임.
 		Board oVo = null;
 		String bno = request.getParameter("bno");
-		System.out.println(bno);
+		System.out.println("bw-bno: "+bno);
 		if(bno == null) {
 			oVo = new Board();
 		} else {
@@ -48,8 +48,8 @@ public class BoardReWriteServlet extends HttpServlet {
 			oVo = new BoardService().getBoard(bnoInt);
 		}
 		
-		String title = request.getParameter("t");
-		String content = request.getParameter("c");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
 		if(writer == null) {
 			writer = "unknown";

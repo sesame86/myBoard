@@ -12,7 +12,7 @@
 </head>
 <body>
 	<% 
-		String id = (String)request.getAttribute("memberLoginInfo");
+		String id = (String)session.getAttribute("memberLoginInfo");
 		ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("boardvolist");
 		int startPage = (int)request.getAttribute("startPage");
 		int endPage = (int)request.getAttribute("endPage");
@@ -64,7 +64,7 @@
 					<td><%=vo.getBno()%></td>
 					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
 					<td><%=vo.getWriter()%></td>
-					<td><%=vo.getCreate_date()%></td>
+					<td><%=vo.getCreateDate()%></td>
 				</tr>
 				<%} }%>
 			</table>
