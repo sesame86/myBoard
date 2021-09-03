@@ -19,6 +19,7 @@
 		bnoInt = Integer.parseInt(bno);
 	}
 	Board vo = (Board)request.getAttribute("vo");
+	ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("volist");
 	%>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
@@ -78,11 +79,17 @@
 				</div>
 				<input class="btn btn-color px-5 mb-3" type="submit" value=" 등록 ">
 			</form>
-			<%if(bnoInt % 2 == 0){ %>
-			<div class="speech-bubble-yellow"><%=vo.getTitle()%><br><%=vo.getContent()%></div>
-			<%} else { %>
-			<div class="speech-bubble-white"><%=vo.getTitle()%><br><%=vo.getContent()%></div>
-			<%} %>
+			<div style="width: 50%">
+				<%if(volist != null){
+				for(Board comment : volist){ %>
+				<%if(comment.getBno() % 2 == 0){ %>
+				<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=vo.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+				<p class="comment-meta-font"><%=vo.getCreateDate() %></p>
+				<%} else { %>
+				<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=vo.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+				<p class="comment-meta-font"><%=vo.getCreateDate() %></p>
+				<%} }}%>
+			</div>
 		</div>
 	</main>
 </body>

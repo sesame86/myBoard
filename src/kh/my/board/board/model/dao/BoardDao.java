@@ -134,7 +134,7 @@ public class BoardDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String query = "select t2.*"
-				+ " from (select ROWNUM r, t.* from (select b.*  from board_r b where b.delete_yn <> 'Y' order by bref desc, bre_step asc) t) t2"
+				+ " from (select ROWNUM r, t.* from (select b.*  from board_r b where b.delete_yn <> 'Y' and bre_level like 0 order by bref desc, bre_step asc) t) t2"
 				+ " where r between ? and ?";
 		try {
 			ps = conn.prepareStatement(query);
@@ -190,6 +190,39 @@ public class BoardDao {
 		}
 		return vo;
 	}
+	//read comment
+	public ArrayList<Board> commentList(Connection conn, int bno) {
+		ArrayList<Board> volist = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String query = "select t2.*"
+				+ " from (select ROWNUM r, t.* from (select b.*  from board_r b where b.delete_yn <> 'Y' order by bref desc, bre_step asc) t) t2"
+				+ " where bref like ? and bre_level <> 0";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, bno);
+			rs = ps.executeQuery();
+			
+			volist = new ArrayList<Board>();
+			while(rs.next()) {
+				Board vo1 = new Board();
+				vo1.setBno(rs.getInt("bno"));
+				vo1.setTitle(rs.getString("title"));
+				vo1.setContent(rs.getString("content"));
+				vo1.setCreateDate(rs.getDate("create_date"));
+				vo1.setWriter(rs.getString("writer"));
+				volist.add(vo1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return volist;
+	}
+	
 	//update
 		public int updateBoard(Connection conn, Board vo, String writer) {
 			int result = -1;

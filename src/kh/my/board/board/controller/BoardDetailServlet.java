@@ -40,8 +40,10 @@ public class BoardDetailServlet extends HttpServlet {
 			bnoInt = Integer.parseInt(bno);
 		}
 		Board vo  = new BoardService().getBoardDetail(bnoInt);
+		ArrayList<Board> volist = new BoardService().commentList(bnoInt);
 		request.setAttribute("vo", vo);
 		request.setAttribute("bno", bnoInt);
+		request.setAttribute("volist", volist);
 		request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
 	}
 

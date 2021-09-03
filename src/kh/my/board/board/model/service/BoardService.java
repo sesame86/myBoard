@@ -3,6 +3,8 @@ package kh.my.board.board.model.service;
 import static kh.my.board.comm.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import kh.my.board.board.model.dao.BoardDao;
@@ -55,6 +57,15 @@ public class BoardService {
 		JDBCTemplate.close(conn);
 		return vo;
 	}
+	//read comment
+		public ArrayList<Board> commentList(int bno) {
+			ArrayList<Board> volist = null;
+			Connection conn = getConnection();
+			
+			volist = new BoardDao().commentList(conn, bno);
+			JDBCTemplate.close(conn);
+			return volist;
+		}
 	//update
 	public int updateBoard(Board vo, String writer) {
 		int result = -1;
