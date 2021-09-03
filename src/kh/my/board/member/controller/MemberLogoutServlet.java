@@ -34,7 +34,7 @@ public class MemberLogoutServlet extends HttpServlet {
 		
 		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
 		request.getSession().invalidate();
-		request.getRequestDispatcher("/boardlist").forward(request, response);
+		response.sendRedirect("boardlist");
 	}
 
 	/**

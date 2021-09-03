@@ -74,10 +74,6 @@ public class BoardListServlet extends HttpServlet {
 		ArrayList<Board> volist = new BoardService().selectBoard(startRnum, endRnum);
 		
 		//Data 전달을 위해서 request에 셋
-		//여기 id전달...하는데...
-		String id = (String)request.getAttribute("memberLoginInfo");
-		System.out.println(id);
-		request.setAttribute("id", id);
 		request.setAttribute("boardvolist", volist);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

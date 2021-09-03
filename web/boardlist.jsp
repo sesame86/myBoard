@@ -33,7 +33,7 @@
 		        </ul>
 		        <c:if test="${memberLoginInfo == null}">
 		        <form class="d-flex" style="margin-right: 10px;">
-	              <a class="btn login-btn" role="button" href="login.jsp">LogIn</a>
+	              <a class="btn login-btn" role="button" href="login">LogIn</a>
 	         	</form>
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
@@ -68,13 +68,12 @@
 				</tr>
 				<%} }%>
 			</table>
-			<a class="btn btn-color" href="boardwrite.jsp">글쓰기</a>
+			<a class="btn btn-color" href="boardwrite">글쓰기</a>
 			
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
 			    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-			    <!-- 왜 memberLoginInfo가 session에 없을까.. -->
 				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
 				<%} %>
 			    <li class="page-item"><a class="page-link" href="#">Next</a></li>

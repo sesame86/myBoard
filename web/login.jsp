@@ -29,7 +29,7 @@
 </head>
 <body class="text-center">
 	<main class="form-signin">
-	  <form method="post" action="memberlogin">
+	  <form method="post" action="login.kh">
 	  	<img class="logo" src="css/logo1.JPG" width="320px">
 	    <div class="form-floating">
 	      <input name="id" class="form-control" id="floatingInput" placeholder="id">

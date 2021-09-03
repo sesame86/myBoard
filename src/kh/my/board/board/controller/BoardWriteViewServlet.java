@@ -1,26 +1,23 @@
-package kh.my.board.member.controller;
+package kh.my.board.board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kh.my.board.member.model.service.MemberService;
-
 /**
- * Servlet implementation class MemberLoginServlet
+ * Servlet implementation class BoardWriteViewServlet
  */
-@WebServlet("/login.kh")
-public class MemberLoginServlet extends HttpServlet {
+@WebServlet("/boardwrite")
+public class BoardWriteViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberLoginServlet() {
+    public BoardWriteViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +26,7 @@ public class MemberLoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
-		int result = new MemberService().login(id, pwd);
-		
-		if(result == 1) {
-			request.setAttribute("memberLoginInfo", id);
-			//page 이동하면서 Data도 전달
-			request.getRequestDispatcher("boardlist").forward(request, response);
-		}else {
-			response.sendRedirect("login");
-		}
+		request.getRequestDispatcher("/boardwrite.jsp").forward(request, response);
 	}
 
 	/**

@@ -12,6 +12,7 @@
 </head>
 <body>
 	<%
+	String id = (String)request.getAttribute("memberLoginInfo");
 	String bno = request.getParameter("bno");
 	int bnoInt = 0;
 	if(bno != null) {
@@ -39,7 +40,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p>${memberLoginInfo} 님</p>
+	         		<p class="username"><%=id %> 님</p>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
@@ -55,16 +56,32 @@
 			<div>
 				<span class="badge mb-2" style="background-color: #4B6587">no. <%=bno%></span>
 				<h2><%=vo.getTitle()%></h2>
+				<p class="text-end mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+				  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+				  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+				</svg> <%=vo.getCreate_date()%> &nbsp&nbsp<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+				  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg> <%=vo.getWriter()%></p>
 				<div class="jumbotron bg-white">
 					<p><%=vo.getContent()%></p>
 				</div>
-			</div><br>
-			<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label"><b>comment</b></label>
-			  <textarea name="c" class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
 			</div>
+			<form method="get" action="boardwrite.kh?bno=<%=vo.getBno()%>" >
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Title</span>
+					<input type="text" name="t" class="form-control" id="exampleFormControlInput1" required="required">
+				</div>
+				<div class="input-group mb-3">
+				  <span class="input-group-text" id="basic-addon1">Content</span>
+				  <textarea name="c" class="form-control" id="exampleFormControlTextarea1" rows="1" required="required"></textarea>
+				</div>
+				<input class="btn btn-color px-5 mb-3" type="submit" value=" 등록 ">
+			</form>
+			<%if(bnoInt % 2 == 0){ %>
 			<div class="speech-bubble-yellow"><%=vo.getTitle()%></div>
+			<%} else { %>
 			<div class="speech-bubble-white"><%=vo.getTitle()%></div>
+			<%} %>
 		</div>
 	</main>
 </body>

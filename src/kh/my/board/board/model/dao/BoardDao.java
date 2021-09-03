@@ -67,16 +67,17 @@ public class BoardDao {
 		String sqlUpdate = "update board_r set bre_step = bre_step+1"
 				+ " where bref = ? and bre_step > ?";
 		//새글
-		String sqlInsertNew = "insert into  board_r (bno, title, content, writer, bref, bre_level, bre_step)"
+		String sqlInsertNew = "insert into  board_r(bno, title, content, writer, bref, bre_level, bre_step)"
 				+ " VALUES (seq_board.nextval, ?, ?, ?, seq_board.nextval, ?, ?)";
 		
-		String sqlInsert = "insert into  board_r (bno, title, content, writer, bref, bre_level, bre_step)"
+		String sqlInsert = "insert into  board_r(bno, title, content, writer, bref, bre_level, bre_step)"
 				+ " VALUES (seq_board.nextval, ?, ?, ?, ?, ?, ?)";
 		int bref = 0;
 		int bre_level = 0;
 		int bre_step = 1;
 		try {
 			//bref, bre_level, bre_step 추가
+			System.out.println(vo.getBno());
 			if(vo.getBno() != 0) {
 				bref = vo.getBref();
 				bre_step = vo.getBreStep();

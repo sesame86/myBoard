@@ -15,7 +15,7 @@ import kh.my.board.board.model.vo.Board;
 /**
  * Servlet implementation class BoardReWriteServlet
  */
-@WebServlet("/boardrewrite")
+@WebServlet("/boardwrite.kh")
 public class BoardReWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,35 +33,33 @@ public class BoardReWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		//답글이므로 어느글에 답글을 달 것인가 정보가 전달되어 올것
-		Board originalVo = null;
-		String viewBno = request.getParameter("bno");
-		if(viewBno == null) {  //기존 읽고 있던 글이 없다면 원본 새글쓰기로 인식
-			originalVo = new Board();
-		}else {
-			int bno = Integer.parseInt(viewBno);
-			originalVo = new BoardService().getBoard(bno);
+		// 답글이므로 어느글에 답글을 달것인가 정보가 전달되어 올 것임.
+		Board oVo = null;
+		String bno = request.getParameter("bno");
+		System.out.println(bno);
+		if(bno == null) {
+			oVo = new Board();
+		} else {
+			int bnoInt = Integer.parseInt(bno);
+			// 알아와야함. bref, bre_level, bre_step
+			oVo = new BoardService().getBoard(bnoInt);
 		}
 		
-		//화면에 전달되어 옴
-		//http://localhost:8090/myBoard/boardwrite?t=title&c=content
 		String title = request.getParameter("t");
 		String content = request.getParameter("c");
 		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
 		if(writer == null) {
-			writer = "user01";
+			writer = "unknown";
 		}
 		
-		Board vo = new Board(originalVo.getBno(), title, content, writer, originalVo.getBref(), originalVo.getBreLevel(), originalVo.getBreStep());
+		Board vo = new Board(oVo.getBno(), title, content, writer, oVo.getBref(), oVo.getBreLevel(), oVo.getBreStep());
 		int result = new BoardService().insertBoard(vo);
-		//오류 발생-1, 가입성공 1, 가입실패 0, 기존회원있으면 2, 가장큰수 0xFF
-		if(result ==1) {
-			out.println("게시글이 추가되었습니다.");
-		}else {
-			out.println("예기치 못한 오류 발생");
-		}
+		
+		response.sendRedirect("boardlist");
+		//request.getRequestDispatcher("/boardlist").forward(request, response);
 	}
 
 	/**
