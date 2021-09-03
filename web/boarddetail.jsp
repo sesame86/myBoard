@@ -45,7 +45,7 @@
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
-	            	<a class="btn login-btn" role="button" href="#" onclick="">Logout</a>
+	            	<a class="btn login-btn" role="button" href="logout">Logout</a>
 	         	</form>
 	         </div>
 	      </div>

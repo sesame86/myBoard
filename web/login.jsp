@@ -3,14 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>login</title>
-<head>
+	<meta charset="UTF-8">
+	<title>login</title>
     <!-- Bootstrap core CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">	
 	<!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="css/signin.css">
-    
+
     <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -25,6 +24,14 @@
         }
       }
     </style>
+    <% 
+    	String newMemberMsg = (String)request.getAttribute("newMemberMsg");
+	%>
+    <script type="text/javascript">
+	    <%if(newMemberMsg != null){%>
+			alert("<%=newMemberMsg%>");
+		<%}%>
+    </script>
   </head>
 </head>
 <body class="text-center">
@@ -39,8 +46,9 @@
 	      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
 	      <label for="floatingPassword">Password</label>
 	    </div>
-	    <button class="w-100 btn btn-color" type="submit">Sign in</button>
+	    <button class="w-100 btn btn-color" type="submit">Login</button>
 	  </form>
+	  <a class="w-100 btn Join-btn" role="button" href="memberenroll.jsp" >Join</a>
 	</main>
 </body>
 </html>

@@ -46,5 +46,26 @@ body {
 	padding: 15px;
 }
 .btn-color:hover {
+	color: white;
+	background-color: #C8C6C6;
+}
+
+/*join*/
+.form-join {
+	width: 100%;
+	max-width: 500px;
+	padding: 15px;
+	margin: auto;
+}
+
+.Join-btn {
+	margin-top: 10px;
+	color: #5D5D5D;
+	background-color: #F0E5CF;
+	padding: 15px;
+}
+
+.Join-btn:hover {
+	color: white;
 	background-color: #C8C6C6;
 }

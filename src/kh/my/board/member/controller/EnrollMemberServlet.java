@@ -16,7 +16,7 @@ import kh.my.board.member.model.vo.Member;
 /**
  * Servlet implementation class EnrollMemberServlet
  */
-@WebServlet("/enroll")  // 회원가입
+@WebServlet("/join")  // 회원가입
 public class EnrollMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,23 +34,36 @@ public class EnrollMemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		String id = "kyy806";
-		String pwd = "kyy0806";
-		String name = "KimYeeun";
-		char gender = 'F';
-		String email = "kyy806@gmail.com";
-		String phone = "010-0000-0000";
-		String address = "대한민국";
-		int age = 24;
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		char genderch = ' ';
+		if(gender != null) {
+			genderch = gender.charAt(0);
+		}
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		String age = request.getParameter("age");
+		int ageInt = 0;
+		if(age != null) {
+			ageInt = Integer.parseInt(age);
+		}
 		
-		Member vo = new Member(id, pwd, name, gender, email, phone, address, age);
+		Member vo = new Member(id, pwd, name, genderch, email, phone, address, ageInt);
 		int result = new MemberService().insertMember(vo);
 		//오류 발생-1, 가입성공 1, 가입실패 0, 기존회원있으면 2, 가장큰수 0xFF
 		if(result ==1) {
-			out.println(id + "님 가입되었습니다. 환영합니다.");
+			request.setAttribute("newMemberMsg", "회원가입 성공");
+			//page 이동하면서 Data도 전달
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}else if(result == 2) {
-			out.println("기존회원 id가 존재합니다.");
+			request.setAttribute("duplicationMsg", "기존회원 id 존재");
+			//page 이동하면서 Data도 전달
+			request.getRequestDispatcher("memberenroll.jsp").forward(request, response);
 		}else {
 			out.println("예기치 못한 오류 발생");
 		}
