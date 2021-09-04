@@ -12,7 +12,7 @@
 </head>
 <body>
 	<%
-	String id = (String)session.getAttribute("memberLoginInfo");
+	String name = (String)session.getAttribute("memberLoginInfo");
 	String bno = request.getParameter("bno");
 	int bnoInt = 0;
 	if(bno != null) {
@@ -41,7 +41,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p class="username"><%=id %> 님</p>
+	         		<p class="username"><%=name %> 님</p>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">

@@ -4,6 +4,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'GmarketSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 body {
 	font-family: 'GmarketSansMedium';
 	background-color: #F7F6F2;
@@ -13,6 +19,32 @@ body {
 }
 .username {
 	margin: auto 10px;
+	text-decoration: none;
+	color: black;
+	font-size: 20px;
+}
+.username:hover {
+	color: black;
+}
+.d-flex {
+    position: relative;
+}
+.d-flex:after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 10%;
+	width: 0%;
+	height: 10px;
+	border-radius: 60px;
+	opacity: 20%;
+	background-color: #4B6587; 
+    transition: all 0.5s;
+    color: black;
+}
+.d-flex:hover:after {
+	left: 0;
+	width: 100%;
 }
 .wrap {
 	width: 60%;

@@ -12,7 +12,7 @@
 </head>
 <body>
 	<% 
-		String id = (String)session.getAttribute("memberLoginInfo");
+		String name = (String)session.getAttribute("memberLoginInfo");
 		ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("boardvolist");
 		int startPage = (int)request.getAttribute("startPage");
 		int endPage = (int)request.getAttribute("endPage");
@@ -38,7 +38,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p class="username"><%=id %> 님</p>
+	         		<a class="username" href="personalpage.jsp"><%=name %> 님</a>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
