@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/616f27e0c4.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="css/board.css">
+<link rel="stylesheet" type="text/css" href="css/handIcon.css">
 <title>mypage</title>
 	<%	
     	String msg = (String)request.getAttribute("msg");
@@ -55,7 +57,7 @@
 	</header>
 	<main class="wrap">
 		<div class="text-center">
-			<img class="logo mb-5" src="css/logo1.JPG" width="320px">
+			<i class="far fa-hand-paper mb-3 shaking animated" style="font-size: 70px"></i>
 			<h2><%=name%>님, 환영합니다</h2>
 			<p class="mb-5">회원정보 관리와 글 관리를 할 수 있습니다.</p>
 		</div>

@@ -1,0 +1,65 @@
+@-webkit-keyframes shaking {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  10%, 20% {
+    -webkit-transform: scale(1) rotate(-8deg);
+    transform: scale(1) rotate(-8deg);
+  }
+
+  30%, 50%, 70% {
+    -webkit-transform: scale(1) rotate(8deg);
+    transform: scale(1) rotate(8deg);
+  }
+
+  40%, 60% {
+    -webkit-transform: scale(1) rotate(-8deg);
+    transform: scale(1) rotate(-8deg);
+  }
+
+  80% {
+    -webkit-transform: scale(1) rotate(0);
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes shaking {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  10%, 20% {
+    -webkit-transform: scale(1) rotate(-8deg);
+    -ms-transform: scale(1) rotate(-8deg);
+    transform: scale(1) rotate(-8deg);
+  }
+
+  30%, 50%, 70% {
+    -webkit-transform: scale(1) rotate(8deg);
+    -ms-transform: scale(1) rotate(8deg);
+    transform: scale(1) rotate(8deg);
+  }
+
+  40%, 60% {
+    -webkit-transform: scale(1) rotate(-8deg);
+    -ms-transform: scale(1) rotate(-8deg);
+    transform: scale(1) rotate(-8deg);
+  }
+
+  80% {
+    -webkit-transform: scale(1) rotate(0);
+    -ms-transform: scale(1) rotate(0);
+    transform: scale(1) rotate(0);
+  }
+}
+
+.shaking.animated,
+.shaking.animated-hover:hover,
+.shaking.animated-hover:hover > .shaking {
+  -webkit-animation: shaking 2s linear infinite;
+  animation: shaking 2s linear infinite;
+}
