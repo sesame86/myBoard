@@ -34,6 +34,7 @@ public class BoardListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		final int PAGE_SIZE = 10;  //한페이지당 글 수 
 		final int PAGE_BLOCK = 3;  //한화면에 나타날 페이지 링크 수

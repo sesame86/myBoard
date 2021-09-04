@@ -41,9 +41,10 @@ public class Member {
 		this.address = address;
 		this.age = age;
 	}
-	public Member(String id, String pwd) {
+	//update에서 비밀번호 체크할 때 사용
+	public Member(String id, String name) {
 		this.id = id;
-		this.pwd = pwd;
+		this.name = name;
 	}
 	public String getId() {
 		return id;

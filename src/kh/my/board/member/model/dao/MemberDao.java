@@ -107,10 +107,12 @@ public class MemberDao {
 	//read
 	public ArrayList<Member> selectMember(Connection conn) {
 		ArrayList<Member> voList = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String query = "SELECT * FROM member";
 		try {
-			Statement st = conn.createStatement();
-			String query = "SELECT * FROM member";
-			ResultSet rs = st.executeQuery(query);
+			st = conn.createStatement();
+			rs = st.executeQuery(query);
 			
 			voList = new ArrayList<Member>();
 			while(rs.next()) {
@@ -127,50 +129,70 @@ public class MemberDao {
 				vo.setPoint(rs.getInt("point"));
 				voList.add(vo);
 			}
-			rs.close();
-			st.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-		} 
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(st);
+		}
 		return voList;
 	}
 	//update
-	public int updateMember(Connection conn, Member vo, String checkPwd) {
-		int result = -1;
+	public Member checkPwd(Connection conn, String checkId, String checkPwd) {
+		PreparedStatement ps =null;
+		ResultSet rs = null;
+		Member vo = null;
+		String query = "SELECT * FROM member WHERE member_id like ? and member_pwd like ?";
 		try {
-			String check = "SELECT * FROM member WHERE member_pwd like ?";
-			PreparedStatement ps = conn.prepareStatement(check);
-			ps.setString(1, vo.getId());
-			ResultSet rs = ps.executeQuery();
-			/*
-			 * return : 0 - 변경 성공, 1 = pwd불일치, -1 에러
-			 */
-			if(rs.next()) {
-				String dbPwd = rs.getString(1);
-				if(checkPwd == dbPwd) {
-					String query = "update member set member_pwd = ?, member_name = ?, gender = ?, email = ?, phone = ?, address = ?, age = ?, enroll_date = ?  where member_id like ?";
-					ps = conn.prepareStatement(query);
-					ps.setString(1, vo.getPwd());
-					ps.setString(2, vo.getName());
-					ps.setString(3, String.valueOf(vo.getGender()));
-					ps.setString(4, vo.getEmail());
-					ps.setString(5, vo.getPhone());
-					ps.setString(6, vo.getAddress());
-					ps.setInt(7, vo.getAge());
-					ps.setDate(8, vo.getEnroll_date());
-					ps.setString(9, vo.getId());
-					result = ps.executeUpdate();
-					ps.close();
-					result = 0;
-				}else {
-					//pwd 틀려서 실패
-					result = 1;
-				}
+			ps = conn.prepareStatement(query);
+			ps.setString(1, checkId);
+			ps.setString(2, checkPwd);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				vo = new Member();
+				vo.setId(rs.getString("member_id"));
+				vo.setPwd(rs.getString("member_pwd"));
+				vo.setName(rs.getString("member_name"));
+				vo.setGender(rs.getString("gender").charAt(0));
+				vo.setEmail(rs.getString("email"));
+				vo.setPhone(rs.getString("phone"));
+				vo.setAddress(rs.getString("address"));
+				vo.setAge(rs.getInt("age"));
+				vo.setEnroll_date(rs.getDate("enroll_date"));
+				vo.setPoint(rs.getInt("point"));
 			}
 		} catch (Exception e) {
 			System.out.println("연결 실패");
 			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return vo;
+	}
+	public int updateMember(Connection conn, Member vo) {
+		int result = -1;
+		PreparedStatement ps = null;
+		String query = "update member set member_pwd = ?, member_name = ?, gender = ?, email = ?, phone = ?, address = ?, age = ?, enroll_date = ?  where member_id like ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, vo.getPwd());
+			ps.setString(2, vo.getName());
+			ps.setString(3, String.valueOf(vo.getGender()));
+			ps.setString(4, vo.getEmail());
+			ps.setString(5, vo.getPhone());
+			ps.setString(6, vo.getAddress());
+			ps.setInt(7, vo.getAge());
+			ps.setDate(8, vo.getEnroll_date());
+			ps.setString(9, vo.getId());
+			result = ps.executeUpdate();
+			result = 0;
+		} catch (Exception e) {
+			System.out.println("연결 실패");
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(ps);
 		}
 		return result;
 	}

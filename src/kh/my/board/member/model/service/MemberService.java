@@ -1,14 +1,11 @@
 package kh.my.board.member.model.service;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import kh.my.board.comm.JDBCTemplate;
 import kh.my.board.member.model.dao.MemberDao;
 import kh.my.board.member.model.vo.Member;
-import static kh.my.board.comm.JDBCTemplate.*;
 
 public class MemberService {
 
@@ -60,24 +57,30 @@ public class MemberService {
 	//read
 	public ArrayList<Member> selectMember() {
 		ArrayList<Member> voList = null;
-		Connection conn = getConnection();
+		Connection conn = JDBCTemplate.getConnection();
 		
 		voList = new MemberDao().selectMember(conn);
 		JDBCTemplate.close(conn);
 		return voList;
 	}
 	//update
-	public int updateMember(Member vo, String checkPwd) {
+	public Member checkPwd(String checkId, String checkPwd) {
+		Connection conn = JDBCTemplate.getConnection();
+		Member vo = new MemberDao().checkPwd(conn, checkId, checkPwd);
+		JDBCTemplate.close(conn);
+		return vo;
+	}
+	public int updateMember(Member vo) {
 		int result = -1;
-		Connection conn = getConnection();
-		result = new MemberDao().updateMember(conn, vo, checkPwd);
+		Connection conn = JDBCTemplate.getConnection();
+		result = new MemberDao().updateMember(conn, vo);
 		JDBCTemplate.close(conn);
 		return result;
 	}
 	//delete
 	public int deleteMember(String id, String pwd) {
 		int result = -1;
-		Connection conn = getConnection();
+		Connection conn = JDBCTemplate.getConnection();
 		result = new MemberDao().deleteMember(conn, id, pwd);
 		JDBCTemplate.close(conn);
 		return result;

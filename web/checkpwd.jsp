@@ -7,14 +7,16 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/board.css">
-<title>board write</title>
+<title>check</title>
 </head>
 <body>
 	<%Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
-	String name = null;
+	String name = null, id = null;
 	if(memberLoginInfo != null){
 		name = memberLoginInfo.getName();
-	}%>
+		id = memberLoginInfo.getId();
+	}
+	%>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
       	<div class="container-fluid">
@@ -30,12 +32,12 @@
 		        </ul>
 		        <c:if test="${memberLoginInfo == null}">
 		        <form class="d-flex" style="margin-right: 10px;">
-	              <a class="btn login-btn" role="button" href="login.jsp">LogIn</a>
+	              <a class="btn login-btn" role="button" href="login">LogIn</a>
 	         	</form>
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p class="username"><%=name %> 님</p>
+	         		<a class="username" href="personalpage.jsp"><%=name %> 님</a>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
@@ -46,20 +48,22 @@
       </nav>
 	</header>
 	<main>
-		<div class="wrap">
-		<h1 class="text-center web-title">글쓰기</h1>
-		<form method="get" action="boardwrite.kh">
-			<div class="mb-3">
-				<label for="exampleFormControlInput1" class="form-label">Title</label>
-				<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
+		<c:if test="${accessMsg == '비밀번호가 틀렸습니다.'}">
+				<script type="text/javascript">alert("${accessMsg}")</script>
+		</c:if>
+		<div class="text-center" style="width: 350px; margin: 300px auto">
+			<div class="form-signin">
+				<form method="post" action="updatecheck">
+					<input type="hidden" name="id"  value="<%=id %>" readonly >
+					<h3 class="mb-3">비밀번호를 입력해주세요.</h3>
+				    <div class="form-floating">
+				    	<input name="pwd" type="password" class="form-control mb-3" id="floatingPassword" placeholder="Password">
+				        <label for="floatingPassword">Password</label>
+				    </div>
+				    <button class="w-100 btn btn-color" type="submit">submit</button>
+				</form>
 			</div>
-			<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-			  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" required="required"></textarea>
-			</div>
-			<input class="btn btn-color" type="submit" value=" 등록 ">
-		</form>
-	</div>
+		</div>
 	</main>
 </body>
 </html>

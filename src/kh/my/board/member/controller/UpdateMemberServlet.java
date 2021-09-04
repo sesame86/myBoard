@@ -30,32 +30,38 @@ public class UpdateMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO : 회원정보수정 
-		// 각자 회원 정보 수정 방식을 정하고 작성
-		// passwd 한번더 확인 --> 기존 데이터 읽어오기  -> 수정--> 
-		// update Member set pwd ='aa', gender-'d...........   where 
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		//update할 데이터
-		String id = "kyy806";
-		String pwd = "kyy0806";
-		String name = "KimYeeun";
-		char gender = 'F';
-		String email = "sesame0806@gmail.com";
-		String phone = "010-0000-0000";
-		String address = "대한민국";
-		int age = 24;
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		char genderch = ' ';
+		if(gender != null) {
+			genderch = gender.charAt(0);
+		}
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		String age = request.getParameter("age");
+		int ageInt = 0;
+		if(age != null) {
+			ageInt = Integer.parseInt(age);
+		}
 		
-		Member vo = new Member(id, pwd, name, gender, email, phone, address, age);
+		Member vo = new Member(id, pwd, name, genderch, email, phone, address, ageInt);
 		
-		String checkPwd = "kyy0806";
-		int result = new MemberService().updateMember(vo, checkPwd);
+		int result = new MemberService().updateMember(vo);
 		
 		if(result == 0) {
-			response.getWriter().append("변경 성공");
-		}else if(result == 1) {
-			response.getWriter().append("변경 실패");
+			request.setAttribute("msg", "변경 성공");
+			request.getRequestDispatcher("personalpage.jsp").forward(request, response);
+		}else if(result == -1) {
+			request.setAttribute("msg", "변경 실패");
+			request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
 		}else {
 			response.getWriter().append("에러");
 		}

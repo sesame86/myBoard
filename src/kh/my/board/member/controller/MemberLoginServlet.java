@@ -32,6 +32,7 @@ public class MemberLoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
@@ -39,7 +40,10 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		if(result == 1) {
 			Member vo = new MemberService().getName(id);
-			request.getSession().setAttribute("memberLoginInfo", vo.getName());
+			String name = vo.getName();
+			System.out.println(name);
+			Member memberLoginInfo = new Member(id, name);
+			request.getSession().setAttribute("memberLoginInfo", memberLoginInfo);
 			//page 이동하면서 Data도 전달
 			request.getRequestDispatcher("boardlist").forward(request, response);
 		}else {

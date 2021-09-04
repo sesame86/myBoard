@@ -1,3 +1,4 @@
+<%@page import="kh.my.board.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -7,9 +8,21 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/board.css">
 <title>mypage</title>
+	<%	
+    	String msg = (String)request.getAttribute("msg");
+	%>
+    <script type="text/javascript">
+    	<%if(msg != null){%>
+    		alert("<%=msg%>");
+    	<%}%>
+    </script>
 </head>
 <body>
-	<%String name = (String)session.getAttribute("memberLoginInfo"); %>
+	<%Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
+	String name = null;
+	if(memberLoginInfo != null){
+		name = memberLoginInfo.getName();
+	} %>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
       	<div class="container-fluid">
@@ -54,7 +67,7 @@
 				    <div class="col-md-8">
 				      <div class="card-body m-3">
 				        <h3 class="card-title py-3 my-3">회원정보 수정</h3>
-				        <a href="#" class="btn btn-color px-4">Go</a>
+				        <a href="checkpwd.jsp" class="btn btn-color px-4">Go</a>
 				      </div>
 				    </div>
 				    <div class="col-md-4 m-auto">

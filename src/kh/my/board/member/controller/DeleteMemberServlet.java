@@ -31,7 +31,7 @@ public class DeleteMemberServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		
+		request.setCharacterEncoding("UTF-8");
 		String id = "kyy806";
 		String pwd = "kyy0806";
 		

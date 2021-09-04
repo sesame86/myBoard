@@ -1,27 +1,26 @@
-package kh.my.board.board.controller;
+package kh.my.board.member.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kh.my.board.board.model.service.BoardService;
+import kh.my.board.member.model.service.MemberService;
+import kh.my.board.member.model.vo.Member;
 
 /**
- * Servlet implementation class BoardDeleteServlet
+ * Servlet implementation class MemberUpdateCheckPwdServlet
  */
-@WebServlet("/boarddelete")
-public class BoardDeleteServlet extends HttpServlet {
+@WebServlet("/updatecheck")
+public class MemberUpdateCheckPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDeleteServlet() {
+    public MemberUpdateCheckPwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,21 +32,19 @@ public class BoardDeleteServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		
-		String bno = request.getParameter("bno");
-		int bnoInt = 0;
-		if(bno != null) {
-			bnoInt = Integer.parseInt(bno);  //눌려진 페이지
-		}
-		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
+		String checkId = request.getParameter("id");
+		String checkPwd = request.getParameter("pwd");
 		
-		int result = new BoardService().deleteBoard(bnoInt, writer);
-		
-		if(result > 0) {
-			out.append("삭제 성공");
+		Member vo = new MemberService().checkPwd(checkId, checkPwd);
+		if(vo != null) {
+			//member정보 jsp에 전달해서 화면에 출력
+			request.setAttribute("membervo", vo);
+			request.setAttribute("accessMsg", "ok");
+			request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
 		}else {
-			out.append("삭제 실패");
+			request.setAttribute("accessMsg", "비밀번호가 틀렸습니다.");
+			request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
 		}
 	}
 

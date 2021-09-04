@@ -1,3 +1,4 @@
+<%@page import="kh.my.board.member.model.vo.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="kh.my.board.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -12,7 +13,11 @@
 </head>
 <body>
 	<%
-	String name = (String)session.getAttribute("memberLoginInfo");
+	Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
+	String name = null;
+	if(memberLoginInfo != null){
+		name = memberLoginInfo.getName();
+	}
 	String bno = request.getParameter("bno");
 	int bnoInt = 0;
 	if(bno != null) {
