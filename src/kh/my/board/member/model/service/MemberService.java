@@ -1,6 +1,8 @@
 package kh.my.board.member.model.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import kh.my.board.comm.JDBCTemplate;
@@ -19,6 +21,14 @@ public class MemberService {
 		result = new MemberDao().login(conn, id, pwd);
 		JDBCTemplate.close(conn);
 		return result;
+	}
+	//navbar에 띄울 name 가져오기
+	public Member getName(String id) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		Member vo = new MemberDao().getName(conn, id);
+		JDBCTemplate.close(conn);
+		return vo;
 	}
 	//create
 	public int insertMember(Member vo) {

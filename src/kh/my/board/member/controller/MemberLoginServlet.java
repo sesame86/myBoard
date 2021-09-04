@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.member.model.service.MemberService;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class MemberLoginServlet
@@ -37,7 +38,8 @@ public class MemberLoginServlet extends HttpServlet {
 		int result = new MemberService().login(id, pwd);
 		
 		if(result == 1) {
-			request.getSession().setAttribute("memberLoginInfo", id);
+			Member vo = new MemberService().getName(id);
+			request.getSession().setAttribute("memberLoginInfo", vo.getName());
 			//page 이동하면서 Data도 전달
 			request.getRequestDispatcher("boardlist").forward(request, response);
 		}else {

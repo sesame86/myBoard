@@ -55,6 +55,30 @@ public class MemberDao {
 		}
 		return result;
 	}
+	//navbar에 띄울 name 가져오기
+	public Member getName(Connection conn, String id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Member vo = null;
+		String query = "select member_name from member where member_id like ?";
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			
+			vo = new Member();
+			if(rs.next()) {
+				vo.setName(rs.getString("member_name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return vo;
+	}
 	//create
 	public int insertMember(Connection conn, Member vo) {
 		int result = -1;
