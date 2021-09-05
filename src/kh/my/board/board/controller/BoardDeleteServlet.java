@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardDeleteServlet
@@ -33,21 +34,22 @@ public class BoardDeleteServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		
 		String bno = request.getParameter("bno");
 		int bnoInt = 0;
 		if(bno != null) {
 			bnoInt = Integer.parseInt(bno);  //눌려진 페이지
 		}
-		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
-		
-		int result = new BoardService().deleteBoard(bnoInt, writer);
+		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
+		String id = memberLoginInfo.getId();
+		int result = new BoardService().deleteBoard(bnoInt, id);
 		
 		if(result > 0) {
-			out.append("삭제 성공");
+			request.setAttribute("msg", "삭제 성공");
+			request.getRequestDispatcher("boardlist").forward(request, response);
 		}else {
-			out.append("삭제 실패");
+			request.setAttribute("msg", "삭제 실패");
+			request.getRequestDispatcher("boarddetail.jsp").forward(request, response);
 		}
 	}
 

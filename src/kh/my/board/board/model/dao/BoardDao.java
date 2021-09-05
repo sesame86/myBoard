@@ -143,7 +143,7 @@ public class BoardDao {
 				+ " from (select ROWNUM r, t1.* from (select *  from board_r where delete_yn <> 'Y' and bre_level like 0 order by bref desc, bre_step asc) t1) t2"
 				+ " where r between ? and ?";
 		String sqlSelectOnly = "select t2.*"
-				+ " from (select ROWNUM r, t1.* from (select *  from board_r where delete_yn <> 'Y' and bre_level like 0 and writer like ? order by bref desc, bre_step asc) t1) t2"
+				+ " from (select ROWNUM r, t1.* from (select *  from board_r where bre_level like 0 and writer like ? order by bref desc, bre_step asc) t1) t2"
 				+ " where r between ? and ?";
 		try {
 			if(writer == null) {

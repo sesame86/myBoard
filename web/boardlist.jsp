@@ -83,7 +83,7 @@
 				for(Board vo : volist){ %>
 				<tr>
 					<td><%=vo.getBno()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getCreateDate()%></td>
 					<c:if test="${allOnly == 'only'}">

@@ -6,23 +6,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="css/board.css">
-<title>board detail</title>
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/board.css">
+	<title>board detail</title>
+	<%	
+    	String msg = (String)request.getAttribute("msg");
+	%>
+    <script type="text/javascript">
+    	<%if(msg != null){%>
+    		alert("<%=msg%>");
+    	<%}%>
+    </script>
 </head>
 <body>
 	<%
 	Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
-	String name = null;
+	String name = null, id = null;
 	if(memberLoginInfo != null){
 		name = memberLoginInfo.getName();
+		id = memberLoginInfo.getId();
 	}
 	String bno = request.getParameter("bno");
 	int bnoInt = 0;
 	if(bno != null) {
 		bnoInt = Integer.parseInt(bno);
 	}
+	String writer = request.getParameter("writer");
+	
 	Board vo = (Board)request.getAttribute("vo");
 	ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("volist");
 	%>
@@ -61,7 +72,15 @@
 			<h1 class="text-center web-title">게시글</h1>
 			<div>
 				<span class="badge mb-2" style="background-color: #4B6587">no. <%=bno%></span>
-				<h2><%=vo.getTitle()%></h2>
+				<h2><%=vo.getTitle()%>
+				
+				<%if(id.equals(writer)){%>
+					&nbsp
+					<a href="boarddelete?bno=<%=bnoInt %>" class="text-black"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+					  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+					</svg></a>
+				<%} %>
+				</h2>
 				<p class="text-end mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
 				  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
 				  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>

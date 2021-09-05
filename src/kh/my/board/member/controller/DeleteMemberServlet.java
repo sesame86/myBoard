@@ -39,7 +39,6 @@ public class DeleteMemberServlet extends HttpServlet {
 		int result = new MemberService().deleteMember(id);
 		
 		if(result > 0) {
-			//memberwithdrawal.jsp
 			request.setAttribute("msg", "삭제 성공");
 			request.getSession().invalidate();
 			request.getRequestDispatcher("boardlist").forward(request, response);
