@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardWriteServlet
@@ -50,7 +51,10 @@ public class BoardWriteServlet extends HttpServlet {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
+		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
+		
+		String writer = memberLoginInfo.getId();
+		
 		if(writer == null) {
 			writer = "unknown";
 		}
@@ -58,8 +62,9 @@ public class BoardWriteServlet extends HttpServlet {
 		Board vo = new Board(oVo.getBno(), title, content, writer, oVo.getBref(), oVo.getBreLevel(), oVo.getBreStep());
 		int result = new BoardService().insertBoard(vo);
 		
-		response.sendRedirect("boardlist");
-		//request.getRequestDispatcher("/boardlist").forward(request, response);
+		//response.sendRedirect("boardlist");
+		request.setAttribute("msg", "작성 완료");
+		request.getRequestDispatcher("boardlist").forward(request, response);
 	}
 
 	/**

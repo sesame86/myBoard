@@ -197,13 +197,12 @@ public class MemberDao {
 		return result;
 	}
 	//delete
-	public int deleteMember(Connection conn, String id, String pwd) {
+	public int deleteMember(Connection conn, String id) {
 		int result = -1;
 		try {
-			String query = "delete from member where member_id like ? And member_pwd like ?";
+			String query = "delete from member where member_id like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1,  id);
-			ps.setString(2, pwd);
 			result = ps.executeUpdate();
 			ps.close();
 		} catch (Exception e) {

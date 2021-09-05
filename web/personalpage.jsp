@@ -69,7 +69,7 @@
 				    <div class="col-md-8">
 				      <div class="card-body m-3">
 				        <h3 class="card-title py-3 my-3">회원정보 수정</h3>
-				        <a href="checkpwd.jsp" class="btn btn-color px-4">Go</a>
+				        <a href="checkpwd.jsp?func=update" class="btn btn-color px-4">Go</a>
 				      </div>
 				    </div>
 				    <div class="col-md-4 m-auto">
@@ -87,7 +87,7 @@
 				    <div class="col-md-8">
 				      <div class="card-body m-3">
 				        <h3 class="card-title py-3 my-3">회원 탈퇴</h3>
-				        <a href="#" class="btn btn-color px-4">Go</a>
+				        <a href="checkpwd.jsp?func=delete" class="btn btn-color px-4">Go</a>
 				      </div>
 				    </div>
 				    <div class="col-md-4 m-auto">

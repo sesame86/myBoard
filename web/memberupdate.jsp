@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<title>enroll</title>
     <!-- Bootstrap core CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">	
@@ -75,11 +75,6 @@
 	</header>
 	<main>
 		<div class="text-center" style="width: 350px; margin: 10% auto">
-			<c:if test="${accessMsg == '비밀번호가 틀렸습니다.'}">
-				<%request.setAttribute("accessMsg", "비밀번호가 틀렸습니다.");
-				request.getRequestDispatcher("checkpwd.jsp").forward(request, response);%>
-			</c:if>
-			<c:if test="${accessMsg == 'ok'}">
 			<form class="row g-3" method="post" action="update">
 			    <div class="col-md-6 form-floating">
 			    	<input name="id" class="form-control" id="floatingInput" placeholder="id" required="required" value="<%=membervo.getId()%>">
@@ -123,7 +118,6 @@
 				</div>
 				<button class="w-100 btn btn-color" type="submit">Update</button>
 			</form>
-			</c:if>
 		</div>
 	</main>
 </body>

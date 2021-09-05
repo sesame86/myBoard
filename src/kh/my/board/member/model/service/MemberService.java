@@ -78,10 +78,10 @@ public class MemberService {
 		return result;
 	}
 	//delete
-	public int deleteMember(String id, String pwd) {
+	public int deleteMember(String id) {
 		int result = -1;
 		Connection conn = JDBCTemplate.getConnection();
-		result = new MemberDao().deleteMember(conn, id, pwd);
+		result = new MemberDao().deleteMember(conn, id);
 		JDBCTemplate.close(conn);
 		return result;
 	}

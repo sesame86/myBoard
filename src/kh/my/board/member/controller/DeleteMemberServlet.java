@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.member.model.service.MemberService;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class DeleteMemberServler
  */
-@WebServlet("/delete")
+@WebServlet("/memberdelete")
 public class DeleteMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,15 +33,19 @@ public class DeleteMemberServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		String id = "kyy806";
-		String pwd = "kyy0806";
 		
-		int result = new MemberService().deleteMember(id, pwd);
+		String id = request.getParameter("id");
+		
+		int result = new MemberService().deleteMember(id);
 		
 		if(result > 0) {
-			response.getWriter().append("삭제 성공");
+			//memberwithdrawal.jsp
+			request.setAttribute("msg", "삭제 성공");
+			request.getSession().invalidate();
+			request.getRequestDispatcher("boardlist").forward(request, response);
 		}else {
-			response.getWriter().append("삭제 실패");
+			request.setAttribute("msg", "삭제 실패");
+			request.getRequestDispatcher("checkpwd.jsp").forward(request, response);
 		}
 	}
 

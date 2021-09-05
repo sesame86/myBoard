@@ -11,16 +11,16 @@ import kh.my.board.member.model.service.MemberService;
 import kh.my.board.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberUpdateCheckPwdServlet
+ * Servlet implementation class MemberCheckPwdServlet
  */
 @WebServlet("/updatecheck")
-public class MemberUpdateCheckPwdServlet extends HttpServlet {
+public class MemberCheckPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberUpdateCheckPwdServlet() {
+    public MemberCheckPwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,16 +35,26 @@ public class MemberUpdateCheckPwdServlet extends HttpServlet {
 		
 		String checkId = request.getParameter("id");
 		String checkPwd = request.getParameter("pwd");
+		String func = request.getParameter("func");
 		
 		Member vo = new MemberService().checkPwd(checkId, checkPwd);
-		if(vo != null) {
-			//member정보 jsp에 전달해서 화면에 출력
-			request.setAttribute("membervo", vo);
-			request.setAttribute("accessMsg", "ok");
-			request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
-		}else {
-			request.setAttribute("accessMsg", "비밀번호가 틀렸습니다.");
-			request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
+		
+		if(func.equals("update")) {
+			if(vo != null) {
+				//member정보 jsp에 전달해서 화면에 출력
+				request.setAttribute("membervo", vo);
+				request.getRequestDispatcher("memberupdate.jsp").forward(request, response);
+			}else {
+				request.setAttribute("msg", "비밀번호가 틀렸습니다.");
+				request.getRequestDispatcher("checkpwd.jsp").forward(request, response);
+			}
+		}else if(func.equals("delete")) {
+			if(vo != null) {
+				request.getRequestDispatcher("memberdelete").forward(request, response);
+			}else {
+				request.setAttribute("msg", "비밀번호가 틀렸습니다.");
+				request.getRequestDispatcher("checkpwd.jsp").forward(request, response);
+			}
 		}
 	}
 

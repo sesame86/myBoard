@@ -11,7 +11,7 @@
 </head>
 <body>
 	<%Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
-	String name = null;
+	String name = null, id = null;
 	if(memberLoginInfo != null){
 		name = memberLoginInfo.getName();
 	}%>
@@ -35,7 +35,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<p class="username"><%=name %> 님</p>
+	         		<a class="username" href="personalpage.jsp"><%=name %> 님</a>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
