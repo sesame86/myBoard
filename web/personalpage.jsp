@@ -21,9 +21,10 @@
 </head>
 <body>
 	<%Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
-	String name = null;
+	String name = null, id = null;
 	if(memberLoginInfo != null){
 		name = memberLoginInfo.getName();
+		id = memberLoginInfo.getId();
 	} %>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
@@ -104,7 +105,7 @@
 				    <div class="col-md-8">
 				      <div class="card-body m-3">
 				        <h3 class="card-title py-3 my-3">작성 글 관리</h3>
-				        <a href="#" class="btn btn-color px-4">Go</a>
+				        <a href="boardlist?writer=<%=id %>" class="btn btn-color px-4">Go</a>
 				      </div>
 				    </div>
 				    <div class="col-md-4 m-auto">

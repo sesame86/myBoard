@@ -43,15 +43,21 @@ public class BoardDao {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount(Connection conn) {
+	public int getBoardCount(Connection conn, String writer) {
 		int result = 0;
-		String query = "select count(bno) from board_r";
+		String bnoquery = "select count(bno) from board_r where bre_level like 0";
+		String writerquery = "select count(bno) from board_r where writer like ? and bre_level like 0";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement(query);
-			rs = ps.executeQuery();
-			
+			if(writer == null) {
+				ps = conn.prepareStatement(bnoquery);
+				rs = ps.executeQuery();
+			}else {
+				ps = conn.prepareStatement(writerquery);
+				ps.setString(1, writer);
+				rs = ps.executeQuery();
+			}
 			if(rs.next()) {
 				result = rs.getInt(1);
 			}
@@ -129,19 +135,29 @@ public class BoardDao {
 		return result;
 	}
 	//read
-	public ArrayList<Board> selectBoard(Connection conn, int start , int end) {
+	public ArrayList<Board> selectBoard(Connection conn, int start , int end, String writer) {
 		ArrayList<Board> volist = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String query = "select t2.*"
-				+ " from (select ROWNUM r, t.* from (select b.*  from board_r b where b.delete_yn <> 'Y' and bre_level like 0 order by bref desc, bre_step asc) t) t2"
+		String selectAllQuery = "select t2.*"
+				+ " from (select ROWNUM r, t1.* from (select *  from board_r where delete_yn <> 'Y' and bre_level like 0 order by bref desc, bre_step asc) t1) t2"
+				+ " where r between ? and ?";
+		String sqlSelectOnly = "select t2.*"
+				+ " from (select ROWNUM r, t1.* from (select *  from board_r where delete_yn <> 'Y' and bre_level like 0 and writer like ? order by bref desc, bre_step asc) t1) t2"
 				+ " where r between ? and ?";
 		try {
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
-			rs = ps.executeQuery();
-			
+			if(writer == null) {
+				ps = conn.prepareStatement(selectAllQuery);
+				ps.setInt(1, start);
+				ps.setInt(2, end);
+				rs = ps.executeQuery();
+			} else {
+				ps = conn.prepareStatement(sqlSelectOnly);
+				ps.setString(1, writer);
+				ps.setInt(2, start);
+				ps.setInt(3, end);
+				rs = ps.executeQuery();
+			}
 			volist = new ArrayList<Board>();
 			while(rs.next()) {
 				Board vo = new Board();
@@ -222,6 +238,7 @@ public class BoardDao {
 		}
 		return volist;
 	}
+	//read personal comment
 	
 	//update
 		public int updateBoard(Connection conn, Board vo, String writer) {

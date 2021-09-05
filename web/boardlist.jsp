@@ -22,7 +22,7 @@
 <body>
 	<% 
 		Member memberLoginInfo = (Member)session.getAttribute("memberLoginInfo");
-		String name = null;
+		String name = null, id = null;
 		if(memberLoginInfo != null){
 			name = memberLoginInfo.getName();
 		}
@@ -62,14 +62,22 @@
       </nav>
 	</header>
 	<main>
-		<div class="wrap">
-			<h1 class="text-center web-title">게시판</h1>
+		<div class="wrap text-center">
+			<c:if test="${allOnly == 'all'}">
+				<h1 class="web-title">게시판</h1>
+			</c:if>
+			<c:if test="${allOnly == 'only'}">
+				<h1 class="web-title"><%=name %>님이 작성한 게시판</h1>
+			</c:if>
 			<table class="table table-hover">
 				<tr class="th-color">
 					<th>번호</th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>날짜</th>
+					<c:if test="${allOnly == 'only'}">
+					<th>삭제 여부</th>
+					</c:if>
 				</tr>
 				<%if(volist != null){
 				for(Board vo : volist){ %>
@@ -78,11 +86,15 @@
 					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getCreateDate()%></td>
+					<c:if test="${allOnly == 'only'}">
+					<td><%=vo.getDeleteYn()%></td>
+					</c:if>
 				</tr>
 				<%} }%>
 			</table>
+			<c:if test="${allOnly == 'all'}">
 			<a class="btn btn-color" href="boardwrite">글쓰기</a>
-			
+			</c:if>
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
 			    <li class="page-item"><a class="page-link" href="#">Previous</a></li>

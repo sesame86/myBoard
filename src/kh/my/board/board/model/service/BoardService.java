@@ -22,12 +22,12 @@ public class BoardService {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount() {
+	public int getBoardCount(String writer) {
 		//0이나 -1이나 똑같음~ 읽은게 없다는뜻은 똑같다
 		int result = 0;
 		Connection conn = JDBCTemplate.getConnection();
 		
-		result = new BoardDao().getBoardCount(conn);
+		result = new BoardDao().getBoardCount(conn, writer);
 		
 		return result;
 	}
@@ -42,11 +42,10 @@ public class BoardService {
 		return result;	
 	}
 	//read
-	public ArrayList<Board> selectBoard(int start , int end) {
+	public ArrayList<Board> selectBoard(int start , int end, String writer) {
 		ArrayList<Board> volist = null;
 		Connection conn = getConnection();
-		
-		volist = new BoardDao().selectBoard(conn, start, end);
+		volist = new BoardDao().selectBoard(conn, start, end, writer);
 		JDBCTemplate.close(conn);
 		return volist;
 	}
