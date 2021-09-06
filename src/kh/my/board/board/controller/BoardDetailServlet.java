@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardDetailServlet
@@ -42,10 +43,22 @@ public class BoardDetailServlet extends HttpServlet {
 		}
 		Board vo  = new BoardService().getBoardDetail(bnoInt);
 		ArrayList<Board> volist = new BoardService().commentList(bnoInt);
-		request.setAttribute("vo", vo);
-		request.setAttribute("bno", bnoInt);
-		request.setAttribute("volist", volist);
-		request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
+		
+		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
+		String id = null;
+		if(memberLoginInfo != null){
+			id = memberLoginInfo.getId();
+		}
+		if(id !=  null) {
+			request.setAttribute("vo", vo);
+			request.setAttribute("bno", bnoInt);
+			request.setAttribute("volist", volist);
+			request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg", "로그인이 필요합니다.");
+			request.setAttribute("allOnly", "all");
+			request.getRequestDispatcher("/boardlist").forward(request, response);
+		}
 	}
 
 	/**

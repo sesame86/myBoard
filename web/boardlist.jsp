@@ -94,7 +94,11 @@
 					<td><%=vo.getBref()%></td>
 					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBref()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
 					</c:if>
-					<c:if test="${allOnly == 'all' or allOnly == 'only'}">
+					<c:if test="${allOnly == 'all'}">
+					<td><%=vo.getBno()%></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
+					</c:if>
+					<c:if test="${allOnly == 'only'}">
 					<td><%=vo.getBno()%></td>
 					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
 					</c:if>
