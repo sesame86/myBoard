@@ -80,7 +80,6 @@ public class BoardPersonalCommentServlet extends HttpServlet {
 		ArrayList<Board> volist = new BoardService().personalCommentList(startRnum, endRnum, writer);
 		
 		//Data 전달을 위해서 request에 셋
-		System.out.println(pageCount);
 		request.setAttribute("boardvolist", volist);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

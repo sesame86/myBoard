@@ -43,7 +43,7 @@ public class BoardDao {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount(Connection conn, String writer, String comment) {
+	public int getBoardCount(Connection conn, String writer, String comment, String allOnly) {
 		int result = 0;
 		String allCount = "select count(bno) from board_r where bre_level like 0";
 		String onlyCount = "select count(bno) from board_r where writer like ? and bre_level like 0";
@@ -51,7 +51,8 @@ public class BoardDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			if(writer == null) {
+			System.out.println(allOnly);
+			if(allOnly.equals("all")) {
 				ps = conn.prepareStatement(allCount);
 				rs = ps.executeQuery();
 			}else {
@@ -128,7 +129,6 @@ public class BoardDao {
 			ps.setInt(1, nextVal);
 			ps.setString(2, vo.getTitle());
 			ps.setString(3, vo.getContent());
-			System.out.println(vo.getWriter());
 			ps.setString(4, vo.getWriter());
 			result = ps.executeUpdate();
 		} catch (Exception e) {

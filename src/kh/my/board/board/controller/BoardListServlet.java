@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardList
@@ -51,11 +52,16 @@ public class BoardListServlet extends HttpServlet {
 			currentPage = Integer.parseInt(pageNum);  //눌려진 페이지
 		}
 		String writer = request.getParameter("writer");
-		
+		String allOnly = request.getParameter("allOnly");
+		//처음 페이지에 들어오면 allOnly값이 null이기 때문에 전체 리스트를 출력하기 위해 all으로 설정해준다.
+		if(allOnly == null) {
+			allOnly = "all";
+		}
 		//총 글수
 		String comment = null;
-		//writer의 값이 null이면 전체글수 값이 있으면 개인 작성 글 수
-		bCount = new BoardService().getBoardCount(writer, comment);
+		//allOnly의 값이 all이면 전체글수 값이 only면 개인 작성 글 수
+		bCount = new BoardService().getBoardCount(writer, comment, allOnly);
+		
 		//총 페이지수 = (총글수/페이지당 글수) + (총글개수에서 페이지당글수로 나눈 나머지가 0이 아니라면 페이지개수를 12증가)
 		pageCount = (bCount/PAGE_SIZE) + (bCount%PAGE_SIZE == 0 ? 0 : 1);
 
@@ -84,8 +90,14 @@ public class BoardListServlet extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("pageCount", pageCount);
+		
 		//개인 or 전체 리스트인지 구분
-		if(writer == null) {
+		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
+		String id = null;
+		if(memberLoginInfo != null){
+			id = memberLoginInfo.getId();
+		}
+		if(writer == null || id == null) {
 			request.setAttribute("allOnly", "all");
 		}else {
 			request.setAttribute("allOnly", "only");

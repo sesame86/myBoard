@@ -96,11 +96,11 @@
 					</c:if>
 					<c:if test="${allOnly == 'all'}">
 					<td><%=vo.getBno()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>"><%=vo.getTitle()%></a></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>&allOnly=all"><%=vo.getTitle()%></a></td>
 					</c:if>
 					<c:if test="${allOnly == 'only'}">
 					<td><%=vo.getBno()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>&allOnly=only"><%=vo.getTitle()%></a></td>
 					</c:if>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getCreateDate()%></td>
@@ -115,23 +115,42 @@
 			</c:if>
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
-			 	<%if(startPage > 1){%>
+			  
+			    <c:if test="${allOnly == 'commentOnly'}">
+			    <%if(startPage > 1){%>
+			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=startPage-1%>">Previous</a></li>
+			    <%} %>
+			    <%for (int i = startPage; i <= endPage; i++) {%>
+			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+			    <%} %>
+				<%if(endPage < pageCount){%>
+			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=endPage+1%>">Next</a></li>
+			  	<%} %>
+			    </c:if>
+			    
+			    <c:if test="${allOnly == 'all'}">
+			    <%if(startPage > 1){%>
 			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=startPage-1%>">Previous</a></li>
 			    <%} %>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-			    <c:if test="${allOnly == 'commentOnly'}">
-			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
-			    </c:if>
-			    <c:if test="${allOnly == 'all'}">
 				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
-				</c:if>
-				<c:if test="${allOnly == 'only'}">
-				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
-				</c:if>
 				<%} %>
 				<%if(endPage < pageCount){%>
 			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=endPage+1%>">Next</a></li>
 			  	<%} %>
+				</c:if>
+				
+				<c:if test="${allOnly == 'only'}">
+				<%if(startPage > 1){%>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=startPage-1%>">Previous</a></li>
+			    <%} %>
+			    <%for (int i = startPage; i <= endPage; i++) {%>
+				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+				<%} %>
+				<%if(endPage < pageCount){%>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=endPage+1%>">Next</a></li>
+			  	<%} %>
+				</c:if>
 			  </ul>
 			</nav>
 		</div>
