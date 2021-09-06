@@ -40,7 +40,6 @@ public class BoardWriteServlet extends HttpServlet {
 		// 답글이므로 어느글에 답글을 달것인가 정보가 전달되어 올 것임.
 		Board oVo = null;
 		String bno = request.getParameter("bno");
-		System.out.println("bw-bno: "+bno);
 		if(bno == null) {
 			oVo = new Board();
 		} else {

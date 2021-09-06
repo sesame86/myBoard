@@ -41,7 +41,6 @@ public class MemberLoginServlet extends HttpServlet {
 		if(result == 1) {
 			Member vo = new MemberService().getName(id);
 			String name = vo.getName();
-			System.out.println(name);
 			Member memberLoginInfo = new Member(id, name);
 			request.getSession().setAttribute("memberLoginInfo", memberLoginInfo);
 			//page 이동하면서 Data도 전달

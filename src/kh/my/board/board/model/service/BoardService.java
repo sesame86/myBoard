@@ -22,12 +22,12 @@ public class BoardService {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount(String writer) {
+	public int getBoardCount(String writer, String comment) {
 		//0이나 -1이나 똑같음~ 읽은게 없다는뜻은 똑같다
 		int result = 0;
 		Connection conn = JDBCTemplate.getConnection();
 		
-		result = new BoardDao().getBoardCount(conn, writer);
+		result = new BoardDao().getBoardCount(conn, writer, comment);
 		
 		return result;
 	}
@@ -57,14 +57,22 @@ public class BoardService {
 		return vo;
 	}
 	//read comment
-		public ArrayList<Board> commentList(int bno) {
-			ArrayList<Board> volist = null;
-			Connection conn = getConnection();
+	public ArrayList<Board> commentList(int bno) {
+		ArrayList<Board> volist = null;
+		Connection conn = getConnection();
 			
-			volist = new BoardDao().commentList(conn, bno);
-			JDBCTemplate.close(conn);
-			return volist;
-		}
+		volist = new BoardDao().commentList(conn, bno);
+		JDBCTemplate.close(conn);
+		return volist;
+	}
+	//read personal comment
+	public ArrayList<Board> personalCommentList(int start , int end, String writer) {
+		ArrayList<Board> volist = null;
+		Connection conn = getConnection();
+		volist = new BoardDao().personalCommentList(conn, start, end, writer);
+		JDBCTemplate.close(conn);
+		return volist;
+	}
 	//update
 	public int updateBoard(Board vo, String writer) {
 		int result = -1;

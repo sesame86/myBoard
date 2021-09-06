@@ -43,20 +43,27 @@ public class BoardDao {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount(Connection conn, String writer) {
+	public int getBoardCount(Connection conn, String writer, String comment) {
 		int result = 0;
-		String bnoquery = "select count(bno) from board_r where bre_level like 0";
-		String writerquery = "select count(bno) from board_r where writer like ? and bre_level like 0";
+		String allCount = "select count(bno) from board_r where bre_level like 0";
+		String onlyCount = "select count(bno) from board_r where writer like ? and bre_level like 0";
+		String commetCount = "select count(bno) from board_r where writer like ? and bre_level <> 0";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			if(writer == null) {
-				ps = conn.prepareStatement(bnoquery);
+				ps = conn.prepareStatement(allCount);
 				rs = ps.executeQuery();
 			}else {
-				ps = conn.prepareStatement(writerquery);
-				ps.setString(1, writer);
-				rs = ps.executeQuery();
+				if(comment == null) {
+					ps = conn.prepareStatement(onlyCount);
+					ps.setString(1, writer);
+					rs = ps.executeQuery();
+				}else {
+					ps = conn.prepareStatement(commetCount);
+					ps.setString(1, writer);
+					rs = ps.executeQuery();
+				}
 			}
 			if(rs.next()) {
 				result = rs.getInt(1);
@@ -239,7 +246,45 @@ public class BoardDao {
 		return volist;
 	}
 	//read personal comment
-	
+	public ArrayList<Board> personalCommentList(Connection conn, int start , int end, String writer) {
+		ArrayList<Board> volist = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sqlCommentOnly = "select t2.*"
+				+ " from (select ROWNUM r, t1.*"
+				+ " from (select *  from board_r where bre_level <> 0 and writer like ? order by bref desc, bre_step asc) t1) t2"
+				+ " where r between ? and ?";
+		try {
+
+			ps = conn.prepareStatement(sqlCommentOnly);
+			ps.setString(1, writer);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
+			rs = ps.executeQuery();
+			
+			volist = new ArrayList<Board>();
+			while(rs.next()) {
+				Board vo = new Board();
+				vo.setBno(rs.getInt("bno"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setCreateDate(rs.getDate("create_date"));
+				vo.setWriter(rs.getString("writer"));
+				vo.setDeleteYn(rs.getString("delete_yn").charAt(0));
+				vo.setBref(rs.getInt("bref"));
+				vo.setBreLevel(rs.getInt("bre_level"));
+				vo.setBreStep(rs.getInt("bre_step"));
+				volist.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return volist;
+	}
 	//update
 		public int updateBoard(Connection conn, Board vo, String writer) {
 			int result = -1;

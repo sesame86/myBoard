@@ -124,7 +124,7 @@
 				    <div class="col-md-8">
 				      <div class="card-body m-3">
 				        <h3 class="card-title py-3 my-3">작성 댓글 관리</h3>
-				        <a href="#" class="btn btn-color px-4">Go</a>
+				        <a href="boardpersonalcomment?writer=<%=id %>" class="btn btn-color px-4">Go</a>
 				      </div>
 				    </div>
 				    <div class="col-md-4 m-auto">

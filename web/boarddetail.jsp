@@ -107,11 +107,11 @@
 				<%if(volist != null){
 				for(Board comment : volist){ %>
 				<%if(comment.getBno() % 2 == 0){ %>
-				<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=vo.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=vo.getCreateDate() %></p>
+				<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
 				<%} else { %>
-				<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=vo.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=vo.getCreateDate() %></p>
+				<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
 				<%} }}%>
 			</div>
 		</div>

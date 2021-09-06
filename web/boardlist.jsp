@@ -25,6 +25,7 @@
 		String name = null, id = null;
 		if(memberLoginInfo != null){
 			name = memberLoginInfo.getName();
+			id = memberLoginInfo.getId();
 		}
 		ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("boardvolist");
 		int startPage = (int)request.getAttribute("startPage");
@@ -69,24 +70,37 @@
 			<c:if test="${allOnly == 'only'}">
 				<h1 class="web-title"><%=name %>님이 작성한 게시판</h1>
 			</c:if>
+			<c:if test="${allOnly == 'commentOnly'}">
+				<h1 class="web-title"><%=name %>님이 작성한 댓글</h1>
+			</c:if>
 			<table class="table table-hover">
 				<tr class="th-color">
+					<c:if test="${allOnly == 'commentOnly'}">
+					<th>게시글 번호</th>
+					</c:if>
+					<c:if test="${allOnly == 'all' or allOnly == 'only'}">
 					<th>번호</th>
+					</c:if>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>날짜</th>
-					<c:if test="${allOnly == 'only'}">
+					<c:if test="${allOnly == 'only' or allOnly == 'commentOnly'}">
 					<th>삭제 여부</th>
 					</c:if>
 				</tr>
 				<%if(volist != null){
 				for(Board vo : volist){ %>
-				<tr>
+				<tr><c:if test="${allOnly == 'commentOnly'}">
+					<td><%=vo.getBref()%></td>
+					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBref()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
+					</c:if>
+					<c:if test="${allOnly == 'all' or allOnly == 'only'}">
 					<td><%=vo.getBno()%></td>
 					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
+					</c:if>
 					<td><%=vo.getWriter()%></td>
 					<td><%=vo.getCreateDate()%></td>
-					<c:if test="${allOnly == 'only'}">
+					<c:if test="${allOnly == 'only' or allOnly == 'commentOnly'}">
 					<td><%=vo.getDeleteYn()%></td>
 					</c:if>
 				</tr>
@@ -99,7 +113,12 @@
 			  <ul class="pagination justify-content-center">
 			    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
+			    <c:if test="${allOnly == 'commentOnly'}">
+			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+			    </c:if>
+			    <c:if test="${allOnly == 'all' or allOnly == 'only'}">
+				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+				</c:if>
 				<%} %>
 			    <li class="page-item"><a class="page-link" href="#">Next</a></li>
 			  </ul>
