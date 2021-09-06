@@ -111,7 +111,9 @@
 			</c:if>
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
-			    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+			 	<%if(startPage > 1){%>
+			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=startPage-1%>">Previous</a></li>
+			    <%} %>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
 			    <c:if test="${allOnly == 'commentOnly'}">
 			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
@@ -123,7 +125,9 @@
 				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
 				</c:if>
 				<%} %>
-			    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+				<%if(endPage < pageCount){%>
+			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=endPage+1%>">Next</a></li>
+			  	<%} %>
 			  </ul>
 			</nav>
 		</div>
