@@ -116,7 +116,10 @@
 			    <c:if test="${allOnly == 'commentOnly'}">
 			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
 			    </c:if>
-			    <c:if test="${allOnly == 'all' or allOnly == 'only'}">
+			    <c:if test="${allOnly == 'all'}">
+				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
+				</c:if>
+				<c:if test="${allOnly == 'only'}">
 				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
 				</c:if>
 				<%} %>
