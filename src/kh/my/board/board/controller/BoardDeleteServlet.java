@@ -41,7 +41,10 @@ public class BoardDeleteServlet extends HttpServlet {
 			bnoInt = Integer.parseInt(bno);  //눌려진 페이지
 		}
 		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
-		String id = memberLoginInfo.getId();
+		String id = null;
+		if(memberLoginInfo != null) {
+			id = memberLoginInfo.getId();
+		}
 		int result = new BoardService().deleteBoard(bnoInt, id);
 		
 		if(result > 0) {

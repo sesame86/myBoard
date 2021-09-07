@@ -49,14 +49,14 @@ public class BoardPersonalCommentServlet extends HttpServlet {
 		if(pageNum != null) {
 			currentPage = Integer.parseInt(pageNum);  //눌려진 페이지
 		}
+		
 		String writer = request.getParameter("writer");
-		
-		
+		String allOnly = request.getParameter("allOnly");
 		//총 댓글 개수
 		//comment일 경우 지정
 		String comment = "ok";
 		//writer의 값이 null이면 전체글수 값이 있으면 개인 작성 글 수
-		bCount = new BoardService().getBoardCount(writer, comment);
+		bCount = new BoardService().getBoardCount(writer, comment, allOnly);
 		//총 페이지수 = (총글수/페이지당 글수) + (총글개수에서 페이지당글수로 나눈 나머지가 0이 아니라면 페이지개수를 12증가)
 		pageCount = (bCount/PAGE_SIZE) + (bCount%PAGE_SIZE == 0 ? 0 : 1);
 

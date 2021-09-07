@@ -36,12 +36,15 @@ public class BoardDetailServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
+		String update = request.getParameter("update");
 		String bno = request.getParameter("bno");
 		int bnoInt = 0;
 		if(bno != null) {
 			bnoInt = Integer.parseInt(bno);
 		}
+		//게시글 한개 정보
 		Board vo  = new BoardService().getBoardDetail(bnoInt);
+		//게시글에 달린 댓글 list
 		ArrayList<Board> volist = new BoardService().commentList(bnoInt);
 		
 		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
@@ -50,10 +53,16 @@ public class BoardDetailServlet extends HttpServlet {
 			id = memberLoginInfo.getId();
 		}
 		if(id !=  null) {
-			request.setAttribute("vo", vo);
-			request.setAttribute("bno", bnoInt);
-			request.setAttribute("volist", volist);
-			request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
+			if(update == null) {
+				request.setAttribute("vo", vo);
+				request.setAttribute("bno", bnoInt);
+				request.setAttribute("volist", volist);
+				request.getRequestDispatcher("/boarddetail.jsp").forward(request, response);
+			}else if(update.equals("update")){
+				request.setAttribute("vo", vo);
+				request.setAttribute("bno", bnoInt);
+				request.getRequestDispatcher("/boardupdate.jsp").forward(request, response);
+			}
 		}else {
 			request.setAttribute("msg", "로그인이 필요합니다.");
 			request.setAttribute("allOnly", "all");

@@ -1,6 +1,5 @@
-<%@page import="kh.my.board.member.model.vo.Member"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="kh.my.board.board.model.vo.Board"%>
+<%@page import="kh.my.board.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -9,15 +8,7 @@
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/board.css">
-	<title>board detail</title>
-	<%	
-    	String msg = (String)request.getAttribute("msg");
-	%>
-    <script type="text/javascript">
-    	<%if(msg != null){%>
-    		alert("<%=msg%>");
-    	<%}%>
-    </script>
+	<title>board update</title>
 </head>
 <body>
 	<%
@@ -33,9 +24,7 @@
 		bnoInt = Integer.parseInt(bno);
 	}
 	String writer = request.getParameter("writer");
-	
 	Board vo = (Board)request.getAttribute("vo");
-	ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("volist");
 	%>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light nav-color">
@@ -72,50 +61,23 @@
 			<h1 class="text-center web-title">게시글</h1>
 			<div>
 				<span class="badge mb-2" style="background-color: #4B6587">no. <%=bno%></span>
-				<h2><%=vo.getTitle()%></h2>
+				<form method="get" action="boardupdate">
 				<p class="text-end mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
 				  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
 				  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
 				</svg> <%=vo.getCreateDate()%> &nbsp&nbsp<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
 				  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
 				</svg> <%=vo.getWriter()%></p>
-				<div class="jumbotron bg-white mb-3">
-					<p><%=vo.getContent()%></p>
+				<div class="mb-3">
+					<input type="hidden" name="bno"  value="<%=bnoInt %>" readonly >
+					<label for="exampleFormControlInput1" class="form-label">Title</label>
+					<input value="<%=vo.getTitle()%>" type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
 				</div>
-				<div class=text-end>
-				<%if(id.equals(writer)){%>
-					<!-- 작성자와 사용자가 같은사람이면 -->
-					<a href="boarddelete?bno=<%=bnoInt %>" class="text-black btn btn-color px-3" role="button">삭제 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-					  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-					</svg></a>
-					<a href="boarddetail?bno=<%=bnoInt %>&update=update" class="text-black btn btn-color px-3" role="button">수정 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
-					  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
-					</svg></a>
-				<%} %>
+				<div class="mb-3">
+				  <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+				  <textarea  name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" required="required"><%=vo.getContent()%></textarea>
 				</div>
-			</div>
-			<form method="get" action="boardwrite.kh" >
-			<input type="hidden" name="bno"  value="<%=bnoInt %>" readonly >
-				<div class="input-group mb-3 mt-3">
-					<span class="input-group-text" id="basic-addon1">Title</span>
-					<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
-				</div>
-				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Content</span>
-				  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="1" required="required"></textarea>
-				</div>
-				<input class="btn btn-color px-5 mb-3" type="submit" value=" 등록 ">
-			</form>
-			<div style="width: 50%">
-				<%if(volist != null){
-				for(Board comment : volist){ %>
-				<%if(comment.getBno() % 2 == 0){ %>
-				<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
-				<%} else { %>
-				<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
-				<%} }}%>
+				<input class="btn btn-color" type="submit" value=" 등록 ">
 			</div>
 		</div>
 	</main>

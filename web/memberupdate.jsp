@@ -75,7 +75,7 @@
 	</header>
 	<main>
 		<div class="text-center" style="width: 350px; margin: 10% auto">
-			<form class="row g-3" method="post" action="update">
+			<form class="row g-3" method="post" action="memberupdate">
 			    <div class="col-md-6 form-floating">
 			    	<input name="id" class="form-control" id="floatingInput" placeholder="id" required="required" value="<%=membervo.getId()%>">
 			    	<label for="floatingInput">id</label>

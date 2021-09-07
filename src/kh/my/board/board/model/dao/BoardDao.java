@@ -55,16 +55,14 @@ public class BoardDao {
 			if(allOnly.equals("all")) {
 				ps = conn.prepareStatement(allCount);
 				rs = ps.executeQuery();
-			}else {
-				if(comment == null) {
-					ps = conn.prepareStatement(onlyCount);
-					ps.setString(1, writer);
-					rs = ps.executeQuery();
-				}else {
-					ps = conn.prepareStatement(commetCount);
-					ps.setString(1, writer);
-					rs = ps.executeQuery();
-				}
+			}else if(allOnly.equals("only")){
+				ps = conn.prepareStatement(onlyCount);
+				ps.setString(1, writer);
+				rs = ps.executeQuery();
+			}else if(allOnly.equals("commentOnly")){
+				ps = conn.prepareStatement(commetCount);
+				ps.setString(1, writer);
+				rs = ps.executeQuery();
 			}
 			if(rs.next()) {
 				result = rs.getInt(1);

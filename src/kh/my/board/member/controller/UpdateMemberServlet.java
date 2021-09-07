@@ -14,7 +14,7 @@ import kh.my.board.member.model.vo.Member;
 /**
  * Servlet implementation class UpdateMemberServlet
  */
-@WebServlet("/update")  // 회원정보수정
+@WebServlet("/memberupdate")  // 회원정보수정
 public class UpdateMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

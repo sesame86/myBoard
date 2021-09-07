@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
+import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardUpdateServlet
@@ -36,24 +37,32 @@ public class BoardUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		
-		//화면에 전달되어 옴
-		//http://localhost:8090/myBoard/boardwrite?t=title&c=content
 		String bno = request.getParameter("bno");
 		int bnoInt = 0;
 		if(bno != null) {
 			bnoInt = Integer.parseInt(bno);  //눌려진 페이지
 		}
-		String writer = (String)request.getSession().getAttribute("memberLoginInfo");
-		String title = request.getParameter("t");
-		String content = request.getParameter("c");
+		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
+		String id = null;
+		if(memberLoginInfo != null) {
+			id = memberLoginInfo.getId();
+		}
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		
 		Board vo = new Board(bnoInt, title, content);
-		int result = new BoardService().updateBoard(vo, writer);
+		int result = new BoardService().updateBoard(vo, id);
 		
 		if(result > 0) {
-			out.append("변경 성공");
+			request.setAttribute("msg", "변경 성공");
+			request.setAttribute("bno", bnoInt);
+			request.setAttribute("writer", id);
+			request.getRequestDispatcher("boarddetail").forward(request, response);
 		}else {
-			out.append("변경 실패");
+			request.setAttribute("msg", "변경 실패");
+			request.setAttribute("bno", bnoInt);
+			request.setAttribute("writer", id);
+			request.getRequestDispatcher("boarddetail").forward(request, response);
 		}
 	}
 	
