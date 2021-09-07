@@ -84,8 +84,10 @@ public class BoardDao {
 		ResultSet rs = null;
 		// 답글, 답답....
 		String sqlUpdate = "UPDATE board_r set bre_step=bre_step+1  where bref=? and bre_step>?";
+		//답답글이면 bre_level도 1증가
+		String  recomment= "UPDATE board_r set bre_level=bre_level+1 where bref=? and bre_step=?";
 		
-		String sqlInsert = "INSERT INTO" + " board_r" + " (BNO, TITLE, CONTENT, WRITER, bref, bre_level, bre_step)"
+		String sqlInsert = "INSERT INTO board_r (BNO, TITLE, CONTENT, WRITER, bref, bre_level, bre_step)"
 						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		String sqlSeqNextVal = "select SEQ_BOARD.nextval from dual";
@@ -232,6 +234,7 @@ public class BoardDao {
 				vo1.setContent(rs.getString("content"));
 				vo1.setCreateDate(rs.getDate("create_date"));
 				vo1.setWriter(rs.getString("writer"));
+				vo1.setBreLevel(rs.getInt("bre_level"));
 				volist.add(vo1);
 			}
 		} catch (Exception e) {

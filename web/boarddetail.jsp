@@ -9,11 +9,26 @@
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/board.css">
+	<script src="https://kit.fontawesome.com/616f27e0c4.js" crossorigin="anonymous"></script>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<title>board detail</title>
 	<%	
     	String msg = (String)request.getAttribute("msg");
 	%>
     <script type="text/javascript">
+	    const items = document.querySelectorAll('.toggle-btn');
+	
+	    function openCloseAnswer() {
+	      const toggleState = this.id.replace('close', 'open');
+	
+	      if(document.getElementById(toggleState).style.display === 'block') {
+	        document.getElementById(toggleState).style.display = 'none';
+	      } else {
+	        document.getElementById(toggleState).style.display = 'block';
+	      }
+	    }
+	
+	    items.forEach(item => item.addEventListener('click', openCloseAnswer));
     	<%if(msg != null){%>
     		alert("<%=msg%>");
     	<%}%>
@@ -94,8 +109,10 @@
 				<%} %>
 				</div>
 			</div>
+			<h5 class="mt-4">답글쓰기</h5>
 			<form method="get" action="boardwrite.kh" >
 			<input type="hidden" name="bno"  value="<%=bnoInt %>" readonly >
+			<input type="hidden" name="comment"  value="comment" readonly >
 				<div class="input-group mb-3 mt-3">
 					<span class="input-group-text" id="basic-addon1">Title</span>
 					<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
@@ -110,12 +127,61 @@
 				<%if(volist != null){
 				for(Board comment : volist){ %>
 				<%if(comment.getBno() % 2 == 0){ %>
-				<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
+					<%if(comment.getBreLevel() == 1) {%>
+					<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
+					<button class="toggle-btn" id="close-<%=comment.getBno()%>">button</button>
+						<div id="open-<%=comment.getBno()%>">
+							<!-- 대댓글 -->
+							<h5 class="mt-4">답답글 쓰기</h5>
+							<form method="get" action="boardwrite.kh" >
+							<input type="hidden" name="bno"  value="<%=comment.getBno()%>" readonly >
+							<input type="hidden" name="comment"  value="comment" readonly >
+								<div class="input-group mb-3 mt-3">
+									<span class="input-group-text" id="basic-addon1">Title</span>
+									<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
+								</div>
+								<div class="input-group mb-3">
+								  <span class="input-group-text" id="basic-addon1">Content</span>
+								  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="1" required="required"></textarea>
+								</div>
+								<input class="btn btn-color px-5 mb-3" type="submit" value=" 등록 ">
+							</form>
+						</div>
+					</p>
+					<%} else{ %>
+					<div class="sb-comment-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+					<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
+					<%} %>
 				<%} else { %>
-				<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
-				<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
-				<%} }}%>
+					<%if(comment.getBreLevel() == 1) {%>
+					<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
+						<button class="toggle-btn" id="close-<%=comment.getBno()%>">button</button>
+						<div id="open-<%=comment.getBno()%>">
+							<!-- 대댓글 -->
+							<h5 class="mt-4">답답글 쓰기</h5>
+							<form method="get" action="boardwrite.kh" >
+							<input type="hidden" name="bno"  value="<%=comment.getBno()%>" readonly >
+							<input type="hidden" name="comment"  value="comment" readonly >
+								<div class="input-group mb-3 mt-3">
+									<span class="input-group-text" id="basic-addon1">Title</span>
+									<input type="text" name="title" class="form-control" id="exampleFormControlInput1" required="required">
+								</div>
+								<div class="input-group mb-3">
+								  <span class="input-group-text" id="basic-addon1">Content</span>
+								  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="1" required="required"></textarea>
+								</div>
+								<input class="btn btn-color px-5 mb-3" type="submit" value=" 등록 ">
+							</form>
+						</div>
+					</p>
+					<%} else { %>
+					<div class="sb-comment-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
+					<p class="comment-meta-font"><%=comment.getCreateDate() %></p>
+					<%} %>
+				<%} %>
+				<%} }%>
 			</div>
 		</div>
 	</main>

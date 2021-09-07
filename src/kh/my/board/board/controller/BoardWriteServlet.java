@@ -40,30 +40,37 @@ public class BoardWriteServlet extends HttpServlet {
 		// 답글이므로 어느글에 답글을 달것인가 정보가 전달되어 올 것임.
 		Board oVo = null;
 		String bno = request.getParameter("bno");
+		int bnoInt = 0;
 		if(bno == null) {
 			oVo = new Board();
 		} else {
-			int bnoInt = Integer.parseInt(bno);
+			bnoInt = Integer.parseInt(bno);
 			// 알아와야함. bref, bre_level, bre_step
 			oVo = new BoardService().getBoard(bnoInt);
 		}
-		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		Member memberLoginInfo = (Member)request.getSession().getAttribute("memberLoginInfo");
-		
-		String writer = memberLoginInfo.getId();
-		
-		if(writer == null) {
-			writer = "unknown";
+		String id = null;
+		if(memberLoginInfo != null) {
+			id = memberLoginInfo.getId();
 		}
+		String comment = request.getParameter("comment");
 		
-		Board vo = new Board(oVo.getBno(), title, content, writer, oVo.getBref(), oVo.getBreLevel(), oVo.getBreStep());
+		if(id == null) {
+			id = "unknown";
+		}
+		Board vo = new Board(oVo.getBno(), title, content, id, oVo.getBref(), oVo.getBreLevel(), oVo.getBreStep());
 		int result = new BoardService().insertBoard(vo);
-		
-		//response.sendRedirect("boardlist");
-		request.setAttribute("msg", "작성 완료");
-		request.getRequestDispatcher("boardlist").forward(request, response);
+		if(comment == null) {
+			request.setAttribute("msg", "작성 완료");
+			request.getRequestDispatcher("boardlist").forward(request, response);
+		}else if(comment.equals("comment")){
+			request.setAttribute("msg", "작성 완료");
+			//request.setAttribute("bno", oVo.getBref());
+			//request.setAttribute("writer", id);
+			request.getRequestDispatcher("boarddetail?bno="+oVo.getBref()+"&writer="+id).forward(request, response);
+		}
 	}
 
 	/**
