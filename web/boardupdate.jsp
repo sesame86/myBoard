@@ -46,7 +46,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<a class="username" href="personalpage.jsp"><%=name %> 님</a>
+	         		<a class="username" href="memberpage"><%=name %> 님</a>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">

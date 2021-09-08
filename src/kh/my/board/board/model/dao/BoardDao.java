@@ -85,8 +85,6 @@ public class BoardDao {
 		ResultSet rs = null;
 		// 답글, 답답....
 		String sqlUpdate = "UPDATE board_r set bre_step=bre_step+1  where bref=? and bre_step>?";
-		//답답글이면 bre_level도 1증가
-		String  recomment= "UPDATE board_r set bre_level=bre_level+1 where bref=? and bre_step=?";
 		
 		String sqlInsert = "INSERT INTO board_r (BNO, TITLE, CONTENT, WRITER, bref, bre_level, bre_step)"
 						+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -106,10 +104,10 @@ public class BoardDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 			
-			if (vo.getBno() != 0) { // 답,,,,,글 쓰기
+			if (vo.getBno() != 0) {
 				bref = vo.getBref();
 				bre_step = vo.getBreStep();
-				ps = conn.prepareStatement(sqlUpdate); // UPDATE
+				ps = conn.prepareStatement(sqlUpdate); //UPDATE
 				ps.setInt(1, bref);
 				ps.setInt(2, bre_step);
 				result = ps.executeUpdate();
@@ -119,8 +117,8 @@ public class BoardDao {
 				bre_step++; 
 			}
 			
-			ps = conn.prepareStatement(sqlInsert); // Insert
-			if (vo.getBno() != 0) {// 답,,,,,글 쓰기
+			ps = conn.prepareStatement(sqlInsert); //Insert
+			if (vo.getBno() != 0) {
 				ps.setInt(5, bref);
 			} else {// 새글 쓰기
 				ps.setInt(5, nextVal);

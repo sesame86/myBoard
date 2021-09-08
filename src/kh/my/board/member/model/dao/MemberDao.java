@@ -186,7 +186,6 @@ public class MemberDao {
 			ps.setInt(7, vo.getAge());
 			ps.setDate(8, vo.getEnroll_date());
 			ps.setString(9, vo.getId());
-			result = ps.executeUpdate();
 			result = 0;
 		} catch (Exception e) {
 			System.out.println("연결 실패");

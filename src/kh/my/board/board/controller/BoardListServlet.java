@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.board.model.service.BoardService;
 import kh.my.board.board.model.vo.Board;
-import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class BoardList

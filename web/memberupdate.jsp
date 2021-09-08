@@ -63,7 +63,7 @@
 	         	</c:if>
 	         	<c:if test="${not empty memberLoginInfo}">
 	         	<form class="d-flex" style="margin-right: 10px;">
-	         		<a class="username" href="personalpage.jsp"><%=name %> 님</a>
+	         		<a class="username" href="memberpage"><%=name %> 님</a>
 	         	</form>
 	         	</c:if>
 	            <form class="d-flex">
@@ -77,7 +77,7 @@
 		<div class="text-center" style="width: 350px; margin: 10% auto">
 			<form class="row g-3" method="post" action="memberupdate">
 			    <div class="col-md-6 form-floating">
-			    	<input name="id" class="form-control" id="floatingInput" placeholder="id" required="required" value="<%=membervo.getId()%>">
+			    	<input name="id" class="form-control" id="floatingInput" placeholder="id" required="required" value="<%=membervo.getId()%>" readonly="readonly">
 			    	<label for="floatingInput">id</label>
 			    </div>
 			    <div class="form-floating col-md-6">

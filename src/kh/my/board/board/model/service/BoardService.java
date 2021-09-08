@@ -3,8 +3,6 @@ package kh.my.board.board.model.service;
 import static kh.my.board.comm.JDBCTemplate.*;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import kh.my.board.board.model.dao.BoardDao;

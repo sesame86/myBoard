@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kh.my.board.member.model.service.MemberService;
-import kh.my.board.member.model.vo.Member;
 
 /**
  * Servlet implementation class DeleteMemberServler

@@ -1,7 +1,6 @@
 package kh.my.board.board.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +34,6 @@ public class BoardWriteServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		
 		// 답글이므로 어느글에 답글을 달것인가 정보가 전달되어 올 것임.
 		Board oVo = null;
@@ -62,14 +60,19 @@ public class BoardWriteServlet extends HttpServlet {
 		}
 		Board vo = new Board(oVo.getBno(), title, content, id, oVo.getBref(), oVo.getBreLevel(), oVo.getBreStep());
 		int result = new BoardService().insertBoard(vo);
-		if(comment == null) {
-			request.setAttribute("msg", "작성 완료");
+		if(result > 0) {
+			if(comment == null) {
+				request.setAttribute("msg", "작성 완료");
+				request.getRequestDispatcher("boardlist").forward(request, response);
+			}else if(comment.equals("comment")){
+				request.setAttribute("msg", "작성 완료");
+				//request.setAttribute("bno", oVo.getBref());
+				//request.setAttribute("writer", id);
+				request.getRequestDispatcher("boarddetail?bno="+oVo.getBref()+"&writer="+id).forward(request, response);
+			}
+		}else {
+			request.setAttribute("msg", "작성 실패");
 			request.getRequestDispatcher("boardlist").forward(request, response);
-		}else if(comment.equals("comment")){
-			request.setAttribute("msg", "작성 완료");
-			//request.setAttribute("bno", oVo.getBref());
-			//request.setAttribute("writer", id);
-			request.getRequestDispatcher("boarddetail?bno="+oVo.getBref()+"&writer="+id).forward(request, response);
 		}
 	}
 

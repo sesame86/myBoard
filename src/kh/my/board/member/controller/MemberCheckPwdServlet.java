@@ -13,7 +13,7 @@ import kh.my.board.member.model.vo.Member;
 /**
  * Servlet implementation class MemberCheckPwdServlet
  */
-@WebServlet("/updatecheck")
+@WebServlet("/checkpwd.kr")
 public class MemberCheckPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
