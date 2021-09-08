@@ -22,12 +22,12 @@ public class BoardService {
 		return vo;
 	}
 	//총 글수
-	public int getBoardCount(String writer, String comment, String allOnly) {
+	public int getBoardCount(String writer, String allOnly) {
 		//0이나 -1이나 똑같음~ 읽은게 없다는뜻은 똑같다
 		int result = 0;
 		Connection conn = JDBCTemplate.getConnection();
 		
-		result = new BoardDao().getBoardCount(conn, writer, comment, allOnly);
+		result = new BoardDao().getBoardCount(conn, writer, allOnly);
 		
 		return result;
 	}

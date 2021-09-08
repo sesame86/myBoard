@@ -28,6 +28,7 @@
 			id = memberLoginInfo.getId();
 		}
 		ArrayList<Board> volist = (ArrayList<Board>)request.getAttribute("boardvolist");
+		ArrayList<Board> commentList = (ArrayList<Board>)request.getAttribute("commentList");
 		int startPage = (int)request.getAttribute("startPage");
 		int endPage = (int)request.getAttribute("endPage");
 		int pageCount = (int)request.getAttribute("pageCount");
@@ -76,7 +77,7 @@
 			<table class="table table-hover">
 				<tr class="th-color">
 					<c:if test="${allOnly == 'commentOnly'}">
-					<th>게시글 번호</th>
+					<th>댓글 번호</th>
 					</c:if>
 					<c:if test="${allOnly == 'all' or allOnly == 'only'}">
 					<th>번호</th>
@@ -88,67 +89,82 @@
 					<th>삭제 여부</th>
 					</c:if>
 				</tr>
+				<!-- all/only -->
+				<c:if test="${allOnly == 'all' or allOnly == 'only'}">
 				<%if(volist != null){
-				for(Board vo : volist){ %>
-				<tr><c:if test="${allOnly == 'commentOnly'}">
-					<td><%=vo.getBref()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBref()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
-					</c:if>
-					<c:if test="${allOnly == 'all'}">
-					<td><%=vo.getBno()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
-					</c:if>
-					<c:if test="${allOnly == 'only'}">
-					<td><%=vo.getBno()%></td>
-					<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
-					</c:if>
-					<td><%=vo.getWriter()%></td>
-					<td><%=vo.getCreateDate()%></td>
-					<c:if test="${allOnly == 'only' or allOnly == 'commentOnly'}">
-					<td><%=vo.getDeleteYn()%></td>
-					</c:if>
-				</tr>
-				<%} }%>
+					for(Board vo : volist){ %>
+					<tr>
+						<c:if test="${allOnly == 'all'}">
+						<td><%=vo.getBno()%></td>
+						<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
+						</c:if>
+						<c:if test="${allOnly == 'only'}">
+						<td><%=vo.getBno()%></td>
+						<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=vo.getBno()%>&writer=<%=vo.getWriter()%>"><%=vo.getTitle()%></a></td>
+						</c:if>
+						<td><%=vo.getWriter()%></td>
+						<td><%=vo.getCreateDate()%></td>
+						<c:if test="${allOnly == 'only' or allOnly == 'commentOnly'}">
+						<td><%=vo.getDeleteYn()%></td>
+						</c:if>
+					</tr>
+					<%}
+				}%>
+				</c:if>
+				<!-- commentOnly -->
+				<c:if test="${allOnly == 'commentOnly'}">
+				<%if(commentList != null){
+					for(Board comment : commentList){ %>
+					<tr>
+						<td><%=comment.getBref()%></td>
+						<td><a class="text-decoration-none text-dark" href="boarddetail?bno=<%=comment.getBref()%>&writer=<%=comment.getWriter()%>"><%=comment.getTitle()%></a></td>
+						<td><%=comment.getWriter()%></td>
+						<td><%=comment.getCreateDate()%></td>
+						<td><%=comment.getDeleteYn()%></td>
+					</tr>
+					<%}
+				}%>
+				</c:if>
 			</table>
 			<c:if test="${allOnly == 'all'}">
 			<a class="btn btn-color" href="boardwrite">글쓰기</a>
 			</c:if>
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
-			  
+			  	<!-- 근데 얘는 댓글로 가져오고싶은데... -->
 			    <c:if test="${allOnly == 'commentOnly'}">
 			    <%if(startPage > 1){%>
-			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=startPage-1%>">Previous</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=startPage-1%>&allOnly=commentOnly">Previous</a></li>
 			    <%} %>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>&allOnly=commentOnly"><%=i%></a></li>
 			    <%} %>
 				<%if(endPage < pageCount){%>
-			    <li class="page-item"><a class="page-link" href="boardpersonalcomment?writer=<%=id%>&pagenum=<%=endPage+1%>">Next</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=endPage+1%>&allOnly=commentOnly">Next</a></li>
 			  	<%} %>
 			    </c:if>
 			    
 			    <c:if test="${allOnly == 'all'}">
 			    <%if(startPage > 1){%>
-			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=startPage-1%>">Previous</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=startPage-1%>&allOnly=all">Previous</a></li>
 			    <%} %>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>"><%=i%></a></li>
+				<li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=i%>&allOnly=all"><%=i%></a></li>
 				<%} %>
 				<%if(endPage < pageCount){%>
-			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=endPage+1%>">Next</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?pagenum=<%=endPage+1%>&allOnly=all">Next</a></li>
 			  	<%} %>
 				</c:if>
 				
 				<c:if test="${allOnly == 'only'}">
 				<%if(startPage > 1){%>
-			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=startPage-1%>">Previous</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=startPage-1%>&allOnly=only">Previous</a></li>
 			    <%} %>
 			    <%for (int i = startPage; i <= endPage; i++) {%>
-				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>"><%=i%></a></li>
+				<li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=i%>&allOnly=only"><%=i%></a></li>
 				<%} %>
 				<%if(endPage < pageCount){%>
-			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=endPage+1%>">Next</a></li>
+			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=endPage+1%>&allOnly=only">Next</a></li>
 			  	<%} %>
 				</c:if>
 			  </ul>
