@@ -183,6 +183,9 @@ tr {
 	text-align: right;
 	margin-top: 2px;
 }
-#Toggle {
-	display:none;
+.hide{
+	display:none!important
+}
+.show{
+	display:block!important
 }

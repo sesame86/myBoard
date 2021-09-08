@@ -16,19 +16,14 @@
     	String msg = (String)request.getAttribute("msg");
 	%>
     <script type="text/javascript">
-	    const items = document.querySelectorAll('.toggle-btn');
-	
-	    function openCloseAnswer() {
-	      const toggleState = this.id.replace('close', 'open');
-	
-	      if(document.getElementById(toggleState).style.display === 'block') {
-	        document.getElementById(toggleState).style.display = 'none';
-	      } else {
-	        document.getElementById(toggleState).style.display = 'block';
-	      }
-	    }
-	
-	    items.forEach(item => item.addEventListener('click', openCloseAnswer));
+    	function accordion(id) {
+    		var x = document.getElementById(id);
+    		if (x.className.indexOf("show") == -1) {
+    			x.className += "show";
+    		} else { 
+    			x.className = x.className.replace("show", "");
+    		}
+    	}
     	<%if(msg != null){%>
     		alert("<%=msg%>");
     	<%}%>
@@ -130,8 +125,8 @@
 					<%if(comment.getBreLevel() == 1) {%>
 					<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
 					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
-					<button class="toggle-btn" id="close-<%=comment.getBno()%>">button</button>
-						<div id="open-<%=comment.getBno()%>">
+					<button onclick="accordion('event<%=comment.getBno()%>')">button</button>
+						<div id="event<%=comment.getBno()%>" class="hide">
 							<!-- 대댓글 -->
 							<h5 class="mt-4">답답글 쓰기</h5>
 							<form method="get" action="boardwrite.kh" >
@@ -157,8 +152,8 @@
 					<%if(comment.getBreLevel() == 1) {%>
 					<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
 					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
-						<button class="toggle-btn" id="close-<%=comment.getBno()%>">button</button>
-						<div id="open-<%=comment.getBno()%>">
+						<button onclick="accordion('event<%=comment.getBno()%>')">button</button>
+						<div id="event<%=comment.getBno()%>" class="hide">
 							<!-- 대댓글 -->
 							<h5 class="mt-4">답답글 쓰기</h5>
 							<form method="get" action="boardwrite.kh" >

@@ -87,7 +87,7 @@ public class BoardPersonalCommentServlet extends HttpServlet {
 		//개인 or 전체 리스트인지 구분
 		request.setAttribute("allOnly", "commentOnly");
 		//page 이동하면서 Data도 전달
-		request.getRequestDispatcher("/boardlist.jsp").forward(request, response);
+		request.getRequestDispatcher("/boardlist").forward(request, response);
 	}
 
 	/**
