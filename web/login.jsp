@@ -35,20 +35,22 @@
   </head>
 </head>
 <body class="text-center">
-	<main class="form-signin">
-	  <form method="post" action="login.kh">
-	  	<img class="logo" src="css/logo1.JPG" width="320px">
-	    <div class="form-floating">
-	      <input name="id" class="form-control" id="floatingInput" placeholder="id">
-	      <label for="floatingInput">id</label>
-	    </div>
-	    <div class="form-floating">
-	      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
-	      <label for="floatingPassword">Password</label>
-	    </div>
-	    <button class="w-100 btn btn-color" type="submit">Login</button>
-	  </form>
-	  <a class="w-100 btn Join-btn" role="button" href="memberenroll.jsp" >Join</a>
-	</main>
+	<div>
+		<img class="logo" src="css/logo1.JPG" width="500px">
+		<div class="form-signin">
+		  <form method="post" action="login.kh">
+		    <div class="form-floating">
+		      <input name="id" class="form-control" id="floatingInput" placeholder="id">
+		      <label for="floatingInput">id</label>
+		    </div>
+		    <div class="form-floating">
+		      <input name="pwd" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+		      <label for="floatingPassword">Password</label>
+		    </div>
+		    <button class="w-100 btn btn-color" type="submit">Login</button>
+		  </form>
+		  <a class="w-100 btn Join-btn" role="button" href="memberenroll.jsp" >Join</a>
+		</div>
+	</div>
 </body>
 </html>

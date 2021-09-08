@@ -18,6 +18,15 @@
     		alert("<%=msg%>");
     	<%}%>
     </script>
+    <style type="text/css">
+    	.main-position {
+	    	width: 60%;
+	    	position:absolute;
+	    	top:50%;
+	    	left:50%;
+	    	transform:translate(-50%, -50%);
+	    }
+    </style>
 </head>
 <body>
 	<% 
@@ -64,7 +73,7 @@
       </nav>
 	</header>
 	<main>
-		<div class="wrap text-center">
+		<div class="main-position text-center">
 			<c:if test="${allOnly == 'all'}">
 				<h1 class="web-title">게시판</h1>
 			</c:if>
@@ -127,11 +136,10 @@
 				</c:if>
 			</table>
 			<c:if test="${allOnly == 'all'}">
-			<a class="btn btn-color" href="boardwrite">글쓰기</a>
+			<a class="btn btn-color mb-4" href="boardwrite">글쓰기</a>
 			</c:if>
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination justify-content-center">
-			  	<!-- 근데 얘는 댓글로 가져오고싶은데... -->
 			    <c:if test="${allOnly == 'commentOnly'}">
 			    <%if(startPage > 1){%>
 			    <li class="page-item"><a class="page-link" href="boardlist?writer=<%=id%>&pagenum=<%=startPage-1%>&allOnly=commentOnly">Previous</a></li>

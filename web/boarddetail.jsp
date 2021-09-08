@@ -104,7 +104,7 @@
 				<%} %>
 				</div>
 			</div>
-			<h5 class="mt-4">답글쓰기</h5>
+			<h5 class="mt-4">댓글 남기기</h5>
 			<form method="get" action="boardwrite.kh" >
 			<input type="hidden" name="bno"  value="<%=bnoInt %>" readonly >
 			<input type="hidden" name="comment"  value="comment" readonly >
@@ -125,10 +125,10 @@
 					<%if(comment.getBreLevel() == 1) {%>
 					<div class="speech-bubble-yellow"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
 					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
-					<button onclick="accordion('event<%=comment.getBno()%>')">button</button>
+					<a href="#" onclick="accordion('event<%=comment.getBno()%>')"><i class="fas fa-comments text-black"></i></a>
 						<div id="event<%=comment.getBno()%>" class="hide">
 							<!-- 대댓글 -->
-							<h5 class="mt-4">답답글 쓰기</h5>
+							<h5 class="mt-4">댓글에 댓글남기기</h5>
 							<form method="get" action="boardwrite.kh" >
 							<input type="hidden" name="bno"  value="<%=comment.getBno()%>" readonly >
 							<input type="hidden" name="comment"  value="comment" readonly >
@@ -152,10 +152,10 @@
 					<%if(comment.getBreLevel() == 1) {%>
 					<div class="speech-bubble-white"><span class="badge" style="background-color: #4B6587"><%=comment.getWriter()%></span> <%=comment.getTitle()%><br><%=comment.getContent()%></div>
 					<p class="comment-meta-font"><%=comment.getCreateDate() %> &nbsp&nbsp
-						<button onclick="accordion('event<%=comment.getBno()%>')">button</button>
+						<a href="#" onclick="accordion('event<%=comment.getBno()%>')"><i class="fas fa-comments text-black"></i></a>
 						<div id="event<%=comment.getBno()%>" class="hide">
 							<!-- 대댓글 -->
-							<h5 class="mt-4">답답글 쓰기</h5>
+							<h5 class="mt-4">댓글에 댓글남기기</h5>
 							<form method="get" action="boardwrite.kh" >
 							<input type="hidden" name="bno"  value="<%=comment.getBno()%>" readonly >
 							<input type="hidden" name="comment"  value="comment" readonly >

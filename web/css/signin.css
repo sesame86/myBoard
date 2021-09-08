@@ -13,8 +13,8 @@ html, body {
 
 body {
 	display: flex;
-	align-items: center;
-	padding-bottom: 40px;
+	justify-content:center; 
+	align-items : center;
 }
 
 .form-signin {
@@ -39,6 +39,7 @@ body {
 }
 .logo {
 	margin-bottom: 50px;
+	align-content: center;
 }
 .btn-color {
 	color: #5D5D5D;
