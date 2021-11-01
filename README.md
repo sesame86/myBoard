@@ -1,5 +1,5 @@
 # myBoard
-### spring mvc2 구조를 이용하여 게시판 만들기
+### mvc2 구조를 이용하여 게시판 만들기
 <br>
 
 >기간<br>
@@ -13,9 +13,12 @@
 - 게시글 작성, 게시글 수정, 게시글 삭제
 
 >개발환경
-- java, Eclipse를 이용한 JSP, Servlet
-- Apache Tomcat 8.5
-- Oracle SQL Developer
+- JAVA : jdk 1.8.0_291
+- JSP : 2.3
+- Servlet : 3.1
+- HTML5, CSS3, Javascript
+- Apache Tomcat/8.5.70
+- Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
 
 <hr><br>
 
